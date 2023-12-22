@@ -19,10 +19,10 @@ const axiosInstance = axios.create({
 const handleRequestError = (error) => {
   if (error.response) {
     // Handle HTTP errors (e.g., 404, 500)
-    if (error.response.status === 401) {
-      localStorage.removeItem("token");
-      window.location.replace("/login");
-    }
+    // if (error.response.status === 401) {
+    //   localStorage.removeItem("token");
+    //   window.location.replace("/login");
+    // }
     let err = {
       errorType: "HTTP Error",
       status: error.response.status,
