@@ -1,0 +1,15 @@
+.main_div {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.input_box {
+  width: 100%;
+  padding: 14px;
+  border-radius: 4px;
+  border: 1px solid darkgrey;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+}

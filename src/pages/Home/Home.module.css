@@ -1,0 +1,25 @@
+.main_div {
+  width: 100%;
+  /* height: 83vh; */
+  max-height: 80vh;
+  overflow-y: auto !important;
+  padding: 1rem 0 0 2rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.main_div {
+  overflow-y: scroll;
+}
+
+.main_div::-webkit-scrollbar {
+  width: 1px;
+}
+
+.graph_div {
+  width: 95%;
+  border: 2px solid darkgrey;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}

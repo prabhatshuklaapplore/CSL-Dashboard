@@ -1,0 +1,25 @@
+.main_div {
+    max-height: 75vh;
+    overflow-y: auto !important;
+    margin-top: 1.5rem;
+    width: 75%;
+    padding: 2rem;
+    /* border: 1.5px solid darkgray; */
+    border-radius: 5px;
+    background-color: rgb(253, 253, 253);
+  }
+  
+  /* Apply overflow-y: scroll if the content exceeds the maximum height */
+  .main_div {
+    overflow-y: scroll;
+  }
+  
+  .form_div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1.5px solid darkgray;
+    border-radius: 5px;
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+  

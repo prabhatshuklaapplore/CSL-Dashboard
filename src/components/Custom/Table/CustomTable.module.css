@@ -1,0 +1,11 @@
+.main_div {
+  background-color: aqua;
+  max-height: 67.5vh;
+  overflow-y: auto !important;
+  margin-top: 1.5rem;
+}
+
+/* Apply overflow-y: scroll if the content exceeds the maximum height */
+.main_div {
+  overflow-y: scroll;
+}

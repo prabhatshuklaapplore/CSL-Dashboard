@@ -1,0 +1,86 @@
+.main_div {
+  border-right: 1px solid darkgrey;
+  height: 100vh;
+  overflow-y: auto !important;
+}
+
+.main_div {
+  overflow-y: scroll;
+}
+
+.list_div {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem !important;
+}
+
+.active_icon {
+  text-decoration: none;
+  background-color: darkslategrey;
+  border-radius: 5px;
+}
+
+.inactive_icon {
+  text-decoration: none;
+  color: black;
+}
+
+.active_url_text {
+  color: white;
+}
+
+.icon_css {
+  color: black !important;
+  
+}
+
+.inactive_url_text {
+  color: #222831;
+  font-weight: 500;
+}
+
+.logo {
+  width: 150px;
+  margin-left: 2rem;
+}
+
+.header_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem 0 2rem;
+}
+
+.header_name {
+  font-family: poppins !important;
+  font-weight: bolder !important;
+  font-size: 24px !important;
+  letter-spacing: 0.5px;
+  color: #070739 !important;
+}
+
+.main_div::-webkit-scrollbar {
+  width: 12px;
+}
+
+.main_div::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.main_div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  background-color: #8070d4;
+}
+
+.logout_div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.logout_btn {
+  width: 70%;
+}
