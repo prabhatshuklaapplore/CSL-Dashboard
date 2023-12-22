@@ -43,10 +43,9 @@ const Login = (props) => {
       let data = { ...formData };
       await post("/dashboard/auth/login", data)
         .then((res) => {
-          console.log("response", res);
-          localStorage.setItem("token", res.data.token);
-          setToken(res.data.token);
-          navigate("/");
+          localStorage.setItem("token", res?.data?.token);
+          setToken(res?.data?.token);
+          navigate("/team");
         })
         .catch((err) => {
           console.log("error", err);
