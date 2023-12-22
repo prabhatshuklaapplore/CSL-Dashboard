@@ -17,6 +17,7 @@ const Login = (props) => {
     password: false,
   });
   const [loading, setLoading] = React.useState(false);
+  const [token, setToken] = React.useState("");
 
   const validate = () => {
     let value = true;
@@ -44,6 +45,7 @@ const Login = (props) => {
         .then((res) => {
           console.log("response", res);
           localStorage.setItem("token", res.data.token);
+          setToken(res.data.token);
           navigate("/");
         })
         .catch((err) => {
