@@ -7,7 +7,11 @@ import Searchbar from "../../components/Custom/SearchBar/Searchbar";
 import DeleteModal from "../../components/Custom/DeleteModal/DeleteModal";
 import { deleteAPI, updateAPI } from "../../helper/apiCallHelper";
 import { toastMessage } from "../../utils/toastMessage";
-import { featureformFields, teamstableColumns , bulkUploadFields } from "../../constants/teamPage";
+import {
+  featureformFields,
+  teamstableColumns,
+  bulkUploadFields,
+} from "../../constants/teamPage";
 import { useDebouncedValue } from "../../helper/debounce";
 import FormModal from "../../components/Custom/FormModal/FormModal";
 import AddIcon from "@mui/icons-material/Add";
@@ -28,8 +32,6 @@ export const Team = () => {
   const [isBulkUpload, setIsBulkUpload] = useState(false);
   const [editData, setEditData] = useState({});
   const debouncedSearch = useDebouncedValue(search, 2000);
-  
-
 
   const fetchEvents = async (searchValue) => {
     await get(`/dashboard/dashUser/getAllAppUsers?page=1&limit=10`)
@@ -89,22 +91,13 @@ export const Team = () => {
     console.log("Delete clicked for row 34:", row);
   };
 
-  const handleActive = async (id, active, type) => {
-    console.log("active", id, active, type);
-    let updateValue = {};
-    if (type === "active") {
-      updateValue = {
-        isActive: active,
-      };
-    }
-    let response = await updateAPI(
-      // `/admin/access-management/event-update/${id}`,
-      updateValue
-    );
-    setMessage(response); 
-    toastMessage(response, "success");
+  const handleActive = async (id, active) => {
+    let response = await put(`/dashboard/dashUser/updateAccount?id=${id}`, {
+      active: active,
+    });
+    setMessage(response.message);
+    toastMessage(response.message, "success");
   };
-
 
   const handleSubmit = async (formData, isEditing) => {
     console.log("Handle submit");
@@ -115,7 +108,7 @@ export const Team = () => {
           `/dashboard/dashUser/updateAccount?id=${editData._id}`,
           formData
         );
-        setMessage("Event Successfully updated"); 
+        setMessage("Event Successfully updated");
         setEditData({});
         setEditModal(false);
       } else {
@@ -148,9 +141,7 @@ export const Team = () => {
     } else if (type === "edit") {
       setEditModal(true);
       setEditData(dataForEdit);
-    }
-    else if(type === "bulkUpload")
-    {
+    } else if (type === "bulkUpload") {
       setIsBulkUpload(true);
     }
   };
@@ -163,9 +154,7 @@ export const Team = () => {
     } else if (type === "edit") {
       setEditModal(false);
       setEditData({});
-    }
-    else if(type === "bulkUpload")
-    {
+    } else if (type === "bulkUpload") {
       setIsBulkUpload(false);
     }
   };
@@ -175,19 +164,16 @@ export const Team = () => {
   };
 
   const handleBulkUpload = (formData) => {
-    console.log('Bulk Upload data:', formData);
+    console.log("Bulk Upload data:", formData);
 
-    setIsBulkUpload(false); 
-    setIsModalOpen(false); 
-    setEditModal(false); 
+    setIsBulkUpload(false);
+    setIsModalOpen(false);
+    setEditModal(false);
   };
-  
-  
-  
 
   return (
     <>
-  <Layout>
+      <Layout>
         <div style={{ padding: "1rem" }}>
           <Typography variant="h5">Team</Typography>
           <div
@@ -222,7 +208,6 @@ export const Team = () => {
             >
               Bulk Upload
             </Button>
-
           </div>
           <CustomTable
             data={events}
@@ -241,17 +226,24 @@ export const Team = () => {
           data={deleteUser}
         />
       </Layout>
-     <FormModal
-      isOpen={(isModalOpen || editModal || isBulkUpload)}
-      onClose={() => closeModal(editModal ? 'edit' : isBulkUpload ? 'bulkUpload' : 'add')} 
-      onSubmit={(isBulkUpload ? handleBulkUpload : handleSubmit)} 
-      fields={(isBulkUpload ? bulkUploadFields : featureformFields)} 
-      header={(isBulkUpload ? 'Bulk Upload' : editModal ? 'Edit Member' : 'Add Member')} 
-      initialData={editData}
-      isEditing={editModal}
-      isBulkUpload={isBulkUpload} 
-    />
+      <FormModal
+        isOpen={isModalOpen || editModal || isBulkUpload}
+        onClose={() =>
+          closeModal(editModal ? "edit" : isBulkUpload ? "bulkUpload" : "add")
+        }
+        onSubmit={isBulkUpload ? handleBulkUpload : handleSubmit}
+        fields={isBulkUpload ? bulkUploadFields : featureformFields}
+        header={
+          isBulkUpload
+            ? "Bulk Upload"
+            : editModal
+            ? "Edit Member"
+            : "Add Member"
+        }
+        initialData={editData}
+        isEditing={editModal}
+        isBulkUpload={isBulkUpload}
+      />
     </>
   );
 };
-

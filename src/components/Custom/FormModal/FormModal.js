@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 import { Autocomplete, MenuItem, Select } from "@mui/material";
 import style from "./FormModal.module.css";
 import { Switch } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import { useNavigate } from "react-router-dom";
 
 const FormModal = ({
   isOpen,
@@ -19,6 +21,7 @@ const FormModal = ({
   initialData,
   isEditing,
   handleActive,
+
 }) => {
   const initialFormData = {};
   const initialErrors = {};
@@ -35,6 +38,8 @@ const FormModal = ({
   // const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState(initialErrors);
   const [checked, setChecked] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (initialData) {
@@ -166,7 +171,11 @@ const FormModal = ({
               return (
                 <div
                   key={field.name}
-                  style={{ marginTop: "20px ", marginBottom: "10px" }}
+                  style={{
+                    marginTop: "20px ",
+                    marginBottom: "10px",
+                    marginRight: "40px",
+                  }}
                 >
                   <Typography>{field.label}</Typography>
                   {field.isMultiSelect ? (
@@ -241,6 +250,16 @@ const FormModal = ({
                       //   handleActive(row?._id, newActiveValue, "status");
                       // }}
                     />
+                  ) : field.type === "button" ? (
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      startIcon={<DownloadIcon />}
+                      style={{padding:"15px", width:"150px"}}
+                      onClick={() => window.open("http://www.google.com")}
+                    >
+                      Download
+                    </Button>
                   ) : field.isMultiSelect === false ? (
                     <Select
                       label={field.label}

@@ -20,7 +20,7 @@ const CustomTable = ({
   pageLimit,
   handleEdit,
   handleDelete,
-  handleActive,
+  handleActive, 
   handleDisplay,
   handlePageChange,
   pageNumber,

@@ -42,17 +42,23 @@ export const teamstableColumns = [
     align: "center",
   },
   {
+    id: "supervisorEmail",
+    label: "Report to (Email)",
+    minWidth: 100,
+    align: "center",
+  },
+  {
     id: "userType",
     label: "Branch",
     minWidth: 70,
     align: "center",
   },
-  {
-    id: "isActive",
-    label: "Sub-Area",
-    minWidth: 70,
-    align: "center",
-  },
+  // {
+  //   id: "isActive",
+  //   label: "Sub-Area",
+  //   minWidth: 70,
+  //   align: "center",
+  // },
   // {
   //   id: "password",
   //   label: "Password",
@@ -92,7 +98,7 @@ export const featureformFields = [
     required: true,
   },
   { name: "branch", label: "Branch", type: "text", required: true },
-  { name: "subarea", label: "Sub-Area", type: "text", required: true },
+  // { name: "subarea", label: "Sub-Area", type: "text", required: true },
   { name: "password", label: "Password", type: "password", required: true },
 ];
 
@@ -101,6 +107,12 @@ export const bulkUploadFields = [
     name: "allTeamData",
     label: "Team Data ( .xlxs)",
     type: "file",
+    required: true,
+  },
+  {
+    name: "sampleSheet",
+    label: "Sample Sheet ( .xlxs)",
+    type: "button",
     required: true,
   },
 ];
