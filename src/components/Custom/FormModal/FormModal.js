@@ -341,7 +341,7 @@ const FormModal = ({
                 </div>
               );
             })}
-            {downloadButton && (
+            {!isEditing && downloadButton && (
               <div>
                 <Typography>Download Sample Sheet</Typography>
                 <Button
