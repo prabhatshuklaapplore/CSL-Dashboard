@@ -60,7 +60,7 @@ export const propertiestableColumns = [
     align: "center",
   },
   {
-    id: "city",
+    id: "groupName",
     label: "Borrower group",
     minWidth: 100,
     align: "center",
@@ -71,12 +71,12 @@ export const propertiestableColumns = [
     minWidth: 70,
     align: "center",
   },
-  {
-    id: "isActive",
-    label: "Assigned Employee",
-    minWidth: 70,
-    align: "center",
-  },
+  // {
+  //   id: "isActive",
+  //   label: "Assigned Employee",
+  //   minWidth: 70,
+  //   align: "center",
+  // },
   {
     id: "dateOfVisit",
     label: "Visit Dates",

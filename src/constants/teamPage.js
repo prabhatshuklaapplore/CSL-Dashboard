@@ -95,24 +95,24 @@ export const featureformFields = [
     name: "supervisor",
     label: "Report To(name)",
     type: "text",
-    required: true,
+    required: false,
   },
   {
     name: "supervisorEmail",
     label: "Report To(email)",
     type: "email",
-    required: true,
+    required: false,
   },
   {
-    name: "role",
+    name: "userType",
     label: "Role",
     isMultiSelect: false,
     options: ["Field Officer", "Manager", "Admin"],
     required: true,
   },
-  { name: "branch", label: "Branch", type: "text", required: true },
+  { name: "branch", label: "Branch", type: "text", required: false },
   // { name: "subarea", label: "Sub-Area", type: "text", required: true },
-  { name: "password", label: "Password", required: true },
+  { name: "password", label: "Password", required: false },
 ];
 
 export const bulkUploadFields = [

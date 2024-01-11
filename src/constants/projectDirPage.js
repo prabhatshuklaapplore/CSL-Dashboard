@@ -6,8 +6,8 @@ export const projectDirtableColumns = [
     align: "left",
   },
   {
-    id: "propertyId",
-    label: "Property Id",
+    id: "propertyType.name",
+    label: "Property Name",
     minWidth: 120,
     align: "left",
   },
