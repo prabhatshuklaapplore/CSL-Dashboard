@@ -48,8 +48,14 @@ export const teamstableColumns = [
     align: "center",
   },
   {
-    id: "userType",
+    id: "branch",
     label: "Branch",
+    minWidth: 70,
+    align: "center",
+  },
+  {
+    id: "userType",
+    label: "Role",
     minWidth: 70,
     align: "center",
   },
@@ -97,9 +103,16 @@ export const featureformFields = [
     type: "email",
     required: true,
   },
+  {
+    name: "role",
+    label: "Role",
+    isMultiSelect: false,
+    options: ["Field Officer", "Manager", "Admin"],
+    required: true,
+  },
   { name: "branch", label: "Branch", type: "text", required: true },
   // { name: "subarea", label: "Sub-Area", type: "text", required: true },
-  { name: "password", label: "Password", type: "password", required: true },
+  { name: "password", label: "Password", required: true },
 ];
 
 export const bulkUploadFields = [
@@ -107,12 +120,6 @@ export const bulkUploadFields = [
     name: "allTeamData",
     label: "Team Data ( .xlxs)",
     type: "file",
-    required: true,
-  },
-  {
-    name: "sampleSheet",
-    label: "Sample Sheet ( .xlxs)",
-    type: "button",
     required: true,
   },
 ];

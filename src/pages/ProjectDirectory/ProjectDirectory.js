@@ -4,7 +4,7 @@ import { Box, Button, MenuItem, Modal, Typography } from "@mui/material";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CustomTable from "../../components/Custom/Table/CustomTable";
-import { get, post, put } from "../../config/axios";
+import { get, post, put, postFiles } from "../../config/axios";
 import Searchbar from "../../components/Custom/SearchBar/Searchbar";
 import DeleteModal from "../../components/Custom/DeleteModal/DeleteModal";
 import { deleteAPI, updateAPI } from "../../helper/apiCallHelper";
@@ -57,7 +57,7 @@ export const ProjectDirectory = () => {
 
   const fetchProperties = async (searchValue) => {
     await get(
-      `/dashboard/property/getAllProperty?search=${searchValue}&page=1&limit=10`
+      `/dashboard/property/getAllProperty?search=${searchValue}&page=${page}&limit=10`
     )
       .then((res) => {
         console.log("res1", res?.data);
@@ -127,24 +127,12 @@ export const ProjectDirectory = () => {
     console.log("Delete clicked for row34:", row);
   };
 
-  const handleActive = async (id, active, type) => {
-    let updateValue = {};
-    if (type === "published") {
-      updateValue = {
-        isPublished: active,
-      };
-    }
-    if (type === "active") {
-      updateValue = {
-        isActive: active,
-      };
-    }
-    let response = await updateAPI(
-      `/admin/access-management/event-update/${id}`,
-      updateValue
-    );
-    setMessage(response);
-    toastMessage(response, "success");
+  const handleActive = async (id, active) => {
+    let response = await put(`dashboard/property/updateProperty?id=${id}`, {
+      active: active,
+    });
+    setMessage(response.message);
+    toastMessage(response.message, "success");
   };
 
   const handleSubmit = async (formData, isEditing) => {
@@ -206,8 +194,19 @@ export const ProjectDirectory = () => {
     }
   };
 
-  const handleBulkUpload = (formData) => {
-    console.log("Bulk Upload data:", formData);
+  const handleBulkUpload = async (formData) => {
+    try {
+      let form = new FormData();
+      form.append("file", formData?.allTeamData);
+      const res = await postFiles("/dashboard/dashUser/uploadFile", form);
+      console.log(res);
+      setMessage(res.message);
+      toastMessage(res.message, "success");
+    } catch (err) {
+      console.error("Error:", err);
+      setMessage("Error while processing the request");
+      toastMessage("Error while updating", "error");
+    }
 
     setIsBulkUpload(false);
     setIsModalOpen(false);
@@ -365,7 +364,7 @@ export const ProjectDirectory = () => {
             >
               Filter-Zone
             </Button> */}
-            <Autocomplete
+            {/* <Autocomplete
               options={options}
               value={selectedOption}
               onChange={(event, newValue) => setSelectedOption(newValue)}
@@ -377,7 +376,7 @@ export const ProjectDirectory = () => {
                   style={{ width: "9rem" }}
                 />
               )}
-            />
+            /> */}
           </div>
           <CustomTable
             data={properties}
@@ -397,24 +396,20 @@ export const ProjectDirectory = () => {
           data={deleteUser}
         />
       </Layout>
-      {/* <FormModal
-        isOpen={isModalOpen || editModal || isBulkUpload}
-        onClose={() =>
-          closeModal(editModal ? "edit" : isBulkUpload ? "bulkUpload" : "add")
-        }
-        onSubmit={isBulkUpload ? handleBulkUpload : handleSubmit}
-        fields={isBulkUpload ? bulkUploadFields : projectDirformFields}
-        header={
-          isBulkUpload
-            ? "Bulk Upload"
-            : editModal
-            ? "Edit Member"
-            : "Add Project Directory"
-        }
+      <FormModal
+        isOpen={isBulkUpload}
+        onClose={() => closeModal("bulkUpload")}
+        onSubmit={handleBulkUpload}
+        fields={bulkUploadFields}
+        header={"Bulk Upload"}
         initialData={editData}
         isEditing={editModal}
         isBulkUpload={isBulkUpload}
-      /> */}
+        downloadButton={true}
+        link={
+          "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/flrrdflrrdProject_Directory_Sample.xlsx"
+        }
+      />
 
       <Modal
         open={isModalOpen}

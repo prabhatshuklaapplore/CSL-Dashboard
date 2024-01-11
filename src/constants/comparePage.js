@@ -1,0 +1,132 @@
+export const compareTableColumns = [
+  {
+    id: "S.No",
+    label: "S.No",
+    minWidth: 70,
+    align: "left",
+  },
+  {
+    id: "name",
+    label: "Property Name",
+    minWidth: 70,
+    align: "left",
+  },
+  // {
+  //   id: "image",
+  //   label: "Image",
+  //   minWidth: 70,
+  //   align: "center",
+  //   type: "IMAGE",
+  // },
+
+  // {
+  //   id: "category.title",
+  //   label: "Catgory",
+  //   minWidth: 70,
+  //   align: "center",
+  //   type: "text",
+  // },
+  {
+    id: "address",
+    label: "Project Address",
+    minWidth: 70,
+    align: "center",
+    type: "text",
+  },
+  {
+    id: "property.borrowerName",
+    label: "Borrower Name",
+    minWidth: 70,
+    align: "center",
+    type: "text",
+  },
+  {
+    id: "user.fullname",
+    label: "Assigned Employee",
+    minWidth: 70,
+    align: "center",
+    type: "text",
+  },
+  {
+    id: "dateOfVisit",
+    label: "Visit Dates",
+    minWidth: 70,
+    align: "center",
+    type: "date",
+  },
+  {
+    id: "details",
+    label: "Details",
+    minWidth: 70,
+    align: "center",
+  },
+];
+export const compareFormFields = [
+  {
+    name: "title",
+    label: "Title",
+    type: "text",
+    required: true,
+  },
+  // {
+  //   name: "image",
+  //   label: "Category Image (.jpeg .jpg .png)",
+  //   type: "file",
+  //   required: true,
+  // },
+  // {
+  //   id: "image",
+  //   label: "Image",
+  //   minWidth: 70,
+  //   align: "center",
+  //   type: "IMAGE",
+  // },
+
+  // {
+  //   name: "category",
+  //   label: "Category",
+  //   type: "text",
+  //   isMultiSelect: false,
+  //   options: ["Diet", "Brain"],
+  //   required: false,
+  // },
+  {
+    name: "category",
+    label: "Category",
+    type: "text",
+    isMultiSelect: false,
+    category: "category",
+    options: [],
+    required: true,
+  },
+  {
+    name: "assets",
+    label: "Image",
+    type: "file",
+    required: true,
+  },
+  {
+    name: "authorName",
+    label: "Author Name",
+    type: "text",
+    requied: true,
+  },
+  {
+    name: "readTime",
+    label: "Read Time",
+    type: "number",
+    required: true,
+  },
+  {
+    name: "description",
+    label: "Description",
+    type: "description",
+    required: true,
+  },
+  // {
+  //   name: "createdAt",
+  //   label: "Publishing Date",
+  //   type: "date",
+  //   required: false,
+  // },
+];

@@ -41,7 +41,7 @@ const FieldControl = () => {
   const [propertiesOption, setpropertiesOption] = useState([
     {
       fieldName: "",
-      subHeading: "",
+      subHeadingName: "",
       options: [
         {
           name: "",
@@ -62,7 +62,7 @@ const FieldControl = () => {
         setEvents(
           res?.data.map((item) => ({
             ...item,
-            action: { edit: true, delete: true },
+            action: { edit: false, delete: true },
           }))
         );
         setPageCount(res?.totalPage);
@@ -278,7 +278,7 @@ const FieldControl = () => {
   const addpropertiesOption = () => {
     const newObj = {
       fieldName: "",
-      subHeading: "",
+      subHeadingName: "",
       options: [
         {
           name: "",
@@ -344,7 +344,7 @@ const FieldControl = () => {
           data={deleteUser}
         />
       </Layout>
-      {/* <FormModal
+      <FormModal
         isOpen={isModalOpen || editModal}
         onClose={() => closeModal(editModal ? "edit" : "add")}
         onSubmit={handleSubmit}
@@ -352,7 +352,7 @@ const FieldControl = () => {
         header={editModal ? "Edit Property Type" : "Add Property Type"}
         initialData={editData}
         isEditing={editModal}
-      /> */}
+      />
       <Modal
         open={isModalOpen}
         onClose={() => {
@@ -415,8 +415,8 @@ const FieldControl = () => {
                     <div style={{ marginLeft: "2rem" }}>
                       <Typography>{"Sub Type Building / Tower"}</Typography>
                       <TextField
-                        name="subHeading"
-                        value={propertiesOption[index].subHeading}
+                        name="subHeadingName"
+                        value={propertiesOption[index].subHeadingName}
                         label={"ex. Pre Structure/ Structure Work etc."}
                         onChange={(event) => updatePropertyType(event, index)}
                         sx={{ marginTop: "5px" }}

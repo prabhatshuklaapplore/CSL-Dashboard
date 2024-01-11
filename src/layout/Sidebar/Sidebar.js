@@ -22,7 +22,7 @@ export const sidebarListArr = [
   { label: "Team", icon: Diversity3Icon, url: "/team" },
   { label: "Property Allocation", icon: LocationCityIcon, url: "/properties" },
   { label: "Individual Performance", icon: EngineeringIcon, url: "/individualPerformance" },
-  { label: "Compare", icon: CompareIcon  , url: "/" },
+  { label: "Compare", icon: CompareIcon  , url: "/compare" },
   { label: "Plan", icon: DifferenceIcon, url: "/plan" },
   { label: "Project Directory", icon: FolderIcon, url: "/projectDirectory" },
   { label: "Field-Control", icon: FolderIcon, url: "/fieldControl" },

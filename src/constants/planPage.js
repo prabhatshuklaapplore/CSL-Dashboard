@@ -12,8 +12,8 @@ export const plantableColumns = [
     align: "left",
   },
   {
-    id: "title",
-    label: "Property id",
+    id: "property.name",
+    label: "Property name",
     minWidth: 100,
     align: "left",
   },
@@ -36,7 +36,7 @@ export const plantableColumns = [
     align: "center",
   },
   {
-    id: "enddatetime",
+    id: "user.fullname",
     label: "Assigned to",
     minWidth: 100,
     align: "center",
@@ -50,24 +50,61 @@ export const plantableColumns = [
 ];
 
 export const planFormFields = [
-  {
-    name: "name",
-    label: "Property Name",
-    type: "text",
-    required: false,
-    disabled: true,
-  },
-  {
-    name: "user.fullname",
-    label: "User",
-    type: "text",
-    required: false,
-    disabled: true,
-  },
+  // {
+  //   name: "name",
+  //   label: "Property Name",
+  //   type: "text",
+  //   required: false,
+  //   disabled: true,
+  // },
+  // {
+  //   name: "user.fullname",
+  //   label: "User",
+  //   type: "text",
+  //   required: false,
+  //   disabled: true,
+  // },
+  // {
+  //   name: "dateOfVisit",
+  //   label: "Date of Visit ",
+  //   type: "date",
+  //   required: false,
+  // },
+  // {
+  //   name: "assigned",
+  //   label: "Assined to",
+  //   // type: "date",
+  //   required: false,
+  // },
+
   {
     name: "dateOfVisit",
     label: "Date of Visit ",
     type: "date",
+    required: false,
+  },
+  {
+    name: "property.address",
+    label: "Property address",
+    type: "text",
+    required: false,
+  },
+  {
+    name: "property.borrowerName",
+    label: "Borrower name",
+    type: "text",
+    required: false,
+  },
+  {
+    name: "property.projectZone",
+    label: "Project Zone",
+    type: "text",
+    required: false,
+  },
+  {
+    name: "user",
+    label: "Assinned to",
+    type: "option",
     required: false,
   },
 ];

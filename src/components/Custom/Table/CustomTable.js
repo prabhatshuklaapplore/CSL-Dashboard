@@ -20,7 +20,7 @@ const CustomTable = ({
   pageLimit,
   handleEdit,
   handleDelete,
-  handleActive, 
+  handleActive,
   handleDisplay,
   handlePageChange,
   pageNumber,
@@ -212,6 +212,21 @@ const CustomTable = ({
                               }}
                             />
                           </div>
+                        ) : column.label === "Details" ? (
+                          <div
+                            onClick={() => {
+                              handleDisplay(row);
+                            }}
+                          >
+                            <VisibilityIcon
+                              style={{
+                                fontSize: "24px",
+                                borderRadius: "3px",
+                                cursor: "pointer",
+                                color: "green",
+                              }}
+                            />
+                          </div>
                         ) : column.label === "Vendor Email" ? (
                           row?.vendorId?.email
                         ) : column.id === "socialMediaLink" ? (
@@ -234,6 +249,8 @@ const CustomTable = ({
                           moment.utc(row?.createdAt).format("YYYY-MM-DD")
                         ) : column.id === "dateOfVisit" ? (
                           moment.utc(row?.dateOfVisit).format("YYYY-MM-DD")
+                        ) : column.id === "startTime" ? (
+                          moment.utc(row?.dateOfVisit).format("HH:mm")
                         ) : column.id === "startDate" ? (
                           moment.utc(row?.startDate).format("YYYY-MM-DD")
                         ) : column.id === "endDate" ? (

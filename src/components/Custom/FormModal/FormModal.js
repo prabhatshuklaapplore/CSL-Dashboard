@@ -21,7 +21,9 @@ const FormModal = ({
   initialData,
   isEditing,
   handleActive,
-
+  downloadButton,
+  usersList,
+  link,
 }) => {
   const initialFormData = {};
   const initialErrors = {};
@@ -38,6 +40,8 @@ const FormModal = ({
   // const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState(initialErrors);
   const [checked, setChecked] = useState(false);
+
+  console.log("userslist", usersList);
 
   const navigate = useNavigate();
 
@@ -81,7 +85,7 @@ const FormModal = ({
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (formdata) => {
     if (validateFormData()) {
       onSubmit(formData, isEditing);
       onClose();
@@ -250,16 +254,6 @@ const FormModal = ({
                       //   handleActive(row?._id, newActiveValue, "status");
                       // }}
                     />
-                  ) : field.type === "button" ? (
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      startIcon={<DownloadIcon />}
-                      style={{padding:"15px", width:"150px"}}
-                      onClick={() => window.open("http://www.google.com")}
-                    >
-                      Download
-                    </Button>
                   ) : field.isMultiSelect === false ? (
                     <Select
                       label={field.label}
@@ -293,6 +287,41 @@ const FormModal = ({
                         disabled={field.disabled ? field.disabled : false}
                       />
                     </>
+                  ) : field.type === "file" ? (
+                    <>
+                      <input
+                        type="file"
+                        onChange={(event) =>
+                          handleChange(field.name, field.type)(event)
+                        }
+                      />
+                      {field.required && !formData[field.name] && (
+                        <p
+                          className={style.error_msg}
+                        >{`${field.label} is required`}</p>
+                      )}
+                    </>
+                  ) : field.type === "option" ? (
+                    <Select
+                      label={field.label}
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={(event) => handleChange(field.name)(event)}
+                      fullWidth
+                      error={!!errors[field.name]}
+                      helperText={errors[field.name]}
+                      disabled={field.disabled ? true : false}
+                    >
+                      {usersList?.map(
+                        (user) => (
+                          <MenuItem key={user._id} value={user._id}>
+                            {user.name}
+                          </MenuItem>
+                        )
+                        // console.log("user34", user)
+                      )}
+                    </Select>
                   ) : (
                     <>
                       <TextField
@@ -312,6 +341,20 @@ const FormModal = ({
                 </div>
               );
             })}
+            {downloadButton && (
+              <div>
+                <Typography>Download Sample Sheet</Typography>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  startIcon={<DownloadIcon fontSize="large" />}
+                  onClick={() => window.open(link)}
+                  style={{ height: "43px" }}
+                >
+                  Download
+                </Button>
+              </div>
+            )}
           </div>
         </form>
 

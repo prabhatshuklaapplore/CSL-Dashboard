@@ -108,17 +108,17 @@ export const projectDirtableColumns = [
     align: "center",
   },
   {
-    id: "lastVisitDate",
+    id: "dateOfVisit",
     label: "Last visit date",
-    minWidth: 100,
+    minWidth: 120,
     align: "center",
   },
-  {
-    id: "labours",
-    label: "No. Of labours",
-    minWidth: 100,
-    align: "center",
-  },
+  // {
+  //   id: "labours",
+  //   label: "No. Of labours",
+  //   minWidth: 100,
+  //   align: "center",
+  // },
 ];
 
 export const eventsFormFields = [

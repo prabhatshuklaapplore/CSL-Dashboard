@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Main/Layout";
 import { Button, Typography } from "@mui/material";
 import CustomTable from "../../components/Custom/Table/CustomTable";
-import { get, post, put } from "../../config/axios";
+import { get, post, put, postFiles } from "../../config/axios";
 import Searchbar from "../../components/Custom/SearchBar/Searchbar";
 import DeleteModal from "../../components/Custom/DeleteModal/DeleteModal";
 import { deleteAPI, updateAPI } from "../../helper/apiCallHelper";
@@ -34,13 +34,13 @@ export const Team = () => {
   const debouncedSearch = useDebouncedValue(search, 2000);
 
   const fetchEvents = async (searchValue) => {
-    await get(`/dashboard/dashUser/getAllAppUsers?page=1&limit=10`)
+    await get(`/dashboard/dashUser/getAllAppUsers?page=${page}&limit=10`)
       .then((res) => {
         console.log("res", res?.data);
         setEvents(
           res?.data.map((item) => ({
             ...item,
-            action: { edit: true, delete: true },
+            action: { edit: true, delete: false },
           }))
         );
         setPageCount(res?.totalPage);
@@ -163,12 +163,19 @@ export const Team = () => {
     console.log("switch ", row);
   };
 
-  const handleBulkUpload = (formData) => {
-    console.log("Bulk Upload data:", formData);
-
-    setIsBulkUpload(false);
-    setIsModalOpen(false);
-    setEditModal(false);
+  const handleBulkUpload = async (formData) => {
+    try {
+      let form = new FormData();
+      form.append("file", formData?.allTeamData);
+      const res = await postFiles("/dashboard/dashUser/uploadFile", form);
+      console.log(res);
+      setMessage(res.message);
+      toastMessage(res.message, "success");
+    } catch (err) {
+      console.error("Error:", err);
+      setMessage("Error while processing the request");
+      toastMessage("Error while updating", "error");
+    }
   };
 
   return (
@@ -243,6 +250,10 @@ export const Team = () => {
         initialData={editData}
         isEditing={editModal}
         isBulkUpload={isBulkUpload}
+        downloadButton={true}
+        link={
+          "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/8ma6h8ma6hSample_Team.xlsx"
+        }
       />
     </>
   );

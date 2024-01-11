@@ -6,13 +6,13 @@ export const indPerformancestableColumns = [
      align: "left",
    },
    {
-     id: "employeeId",
+     id: "user.employeeId",
      label: "Employee Id",
      minWidth: 150,
      align: "left",
    },
    {
-     id: "propertyVisit",
+     id: "name",
      label: "Property Visit",
      minWidth: 70,
      align: "left",

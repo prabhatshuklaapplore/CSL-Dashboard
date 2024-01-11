@@ -17,13 +17,13 @@ import TokenPoints from "../pages/Tokens/TokenPoints";
 import OfflineAddon from "../pages/OfflineAddon/OfflineAddon";
 import Addons from "../pages/Addon/Addons";
 import Actionables from "../pages/Actionables/Actionables";
-import { Properties } from "../pages/Properties/Properties";
+import Properties from "../pages/Properties/Properties";
 import { Team } from "../pages/Team/Team";
 import { IndividualPerformance } from "../pages/Individual Perfromance/IndividualPerformance";
 import { Plan } from "../pages/Plan/Plan";
 import { ProjectDirectory } from "../pages/ProjectDirectory/ProjectDirectory";
 import FieldControl from "../pages/FieldControl/FieldControl";
-
+import Compare from "../pages/Compare/Compare";
 
 function PrivateRoute({ children }) {
   const auth = localStorage.getItem("token");
@@ -40,7 +40,7 @@ const routes = [
     path: "/",
     component: (
       <PrivateRoute>
-        <Team/>
+        <Team />
       </PrivateRoute>
     ),
     isPrivate: false,
@@ -76,7 +76,7 @@ const routes = [
     path: "/fieldControl",
     component: (
       <PrivateRoute>
-        <FieldControl/>
+        <FieldControl />
       </PrivateRoute>
     ),
     isPrivate: false,
@@ -112,7 +112,16 @@ const routes = [
     path: "/individualPerformance",
     component: (
       <PrivateRoute>
-        <IndividualPerformance/>
+        <IndividualPerformance />
+      </PrivateRoute>
+    ),
+    isPrivate: false,
+  },
+  {
+    path: "/compare",
+    component: (
+      <PrivateRoute>
+        <Compare />
       </PrivateRoute>
     ),
     isPrivate: false,
@@ -121,7 +130,7 @@ const routes = [
     path: "/plan",
     component: (
       <PrivateRoute>
-        <Plan/>
+        <Plan />
       </PrivateRoute>
     ),
     isPrivate: false,
@@ -130,7 +139,7 @@ const routes = [
     path: "/projectDirectory",
     component: (
       <PrivateRoute>
-        <ProjectDirectory/>
+        <ProjectDirectory />
       </PrivateRoute>
     ),
     isPrivate: false,
