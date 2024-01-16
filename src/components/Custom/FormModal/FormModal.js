@@ -24,6 +24,7 @@ const FormModal = ({
   downloadButton,
   usersList,
   link,
+  isBulkUpload,
 }) => {
   const initialFormData = {};
   const initialErrors = {};
@@ -341,7 +342,7 @@ const FormModal = ({
                 </div>
               );
             })}
-            {!isEditing && downloadButton && (
+            {isBulkUpload && (
               <div>
                 <Typography>Download Sample Sheet</Typography>
                 <Button

@@ -250,7 +250,6 @@ export const Team = () => {
         initialData={editData}
         isEditing={editModal}
         isBulkUpload={isBulkUpload}
-        downloadButton={true}
         link={
           "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/8ma6h8ma6hSample_Team.xlsx"
         }
