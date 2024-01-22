@@ -11,6 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CircularProgress, Grid, Pagination, Switch } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import DownloadIcon from "@mui/icons-material/Download";
 import moment from "moment";
 
 const CustomTable = ({
@@ -22,6 +23,7 @@ const CustomTable = ({
   handleDelete,
   handleActive,
   handleDisplay,
+  handleDownload,
   handlePageChange,
   pageNumber,
   pageCount,
@@ -224,6 +226,21 @@ const CustomTable = ({
                                 borderRadius: "3px",
                                 cursor: "pointer",
                                 color: "green",
+                              }}
+                            />
+                          </div>
+                        ) : column.label === "Download" ? (
+                          <div
+                            onClick={() => {
+                              handleDownload(row);
+                            }}
+                          >
+                            <DownloadIcon
+                              style={{
+                                fontSize: "24px",
+                                borderRadius: "3px",
+                                cursor: "pointer",
+                                color: "grey",
                               }}
                             />
                           </div>

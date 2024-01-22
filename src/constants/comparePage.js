@@ -55,8 +55,8 @@ export const compareTableColumns = [
     type: "date",
   },
   {
-    id: "details",
-    label: "Details",
+    id: "download",
+    label: "Download",
     minWidth: 70,
     align: "center",
   },
