@@ -7,22 +7,26 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import Diversity3Icon from '@mui/icons-material/Diversity3';
+import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import logo1 from "../../assets/images/CSL Logo.jpg";
-import LocationCityIcon from '@mui/icons-material/LocationCity';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import DifferenceIcon from '@mui/icons-material/Difference';
-import CompareIcon from '@mui/icons-material/Compare';
-import FolderIcon from '@mui/icons-material/Folder';
-
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+import EngineeringIcon from "@mui/icons-material/Engineering";
+import DifferenceIcon from "@mui/icons-material/Difference";
+import CompareIcon from "@mui/icons-material/Compare";
+import FolderIcon from "@mui/icons-material/Folder";
 
 export const sidebarListArr = [
   { label: "Team", icon: Diversity3Icon, url: "/team" },
   { label: "Property Allocation", icon: LocationCityIcon, url: "/properties" },
-  { label: "Individual Performance", icon: EngineeringIcon, url: "/individualPerformance" },
-  { label: "Compare", icon: CompareIcon  , url: "/compare" },
+  {
+    label: "Individual Performance",
+    icon: EngineeringIcon,
+    url: "/individualPerformance",
+  },
+  { label: "Compare", icon: CompareIcon, url: "/compare" },
+  // { label: "Compare2", icon: CompareIcon, url: "/compare2" },
   { label: "Plan", icon: DifferenceIcon, url: "/plan" },
   { label: "Project Directory", icon: FolderIcon, url: "/projectDirectory" },
   { label: "Field-Control", icon: FolderIcon, url: "/fieldControl" },
