@@ -137,9 +137,9 @@ const FieldControl = () => {
       }
     );
     setLoading(true);
-    setMessage(response.message);
-    toastMessage(response, "success");
     setDeleteModalOpen(false);
+    setMessage("succesfully deleted");
+    toastMessage("Succesfully deleted", "success");
     setLoading(false);
   };
   const handleSubmit = async (formData, isEditing) => {
@@ -289,6 +289,8 @@ const FieldControl = () => {
     } catch (error) {
       console.log("err", error);
     }
+    setMessage("Successfully added");
+    setIsModalOpen(false);
   };
 
   const addpropertiesOption = () => {
