@@ -45,6 +45,7 @@ const Login = (props) => {
         .then((res) => {
           localStorage.setItem("token", res?.data?.token);
           setToken(res?.data?.token);
+          window.location.reload();
           navigate("/team");
         })
         .catch((err) => {

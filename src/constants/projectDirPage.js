@@ -13,7 +13,7 @@ export const projectDirtableColumns = [
   },
   {
     id: "groupName",
-    label: "Group Name",
+    label: "Borrower Group Name",
     minWidth: 100,
     align: "left",
   },
@@ -85,7 +85,7 @@ export const projectDirtableColumns = [
     align: "center",
   },
   {
-    id: "groupPos",
+    id: "groupPOS",
     label: "Group POS",
     minWidth: 100,
     align: "center",
@@ -96,12 +96,12 @@ export const projectDirtableColumns = [
     minWidth: 100,
     align: "center",
   },
-  {
-    id: "projectCost",
-    label: "Project Cost",
-    minWidth: 100,
-    align: "center",
-  },
+  // {
+  //   id: "projectCost",
+  //   label: "Project Cost",
+  //   minWidth: 100,
+  //   align: "center",
+  // },
   {
     id: "active",
     label: "Status",

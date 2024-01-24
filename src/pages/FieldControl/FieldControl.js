@@ -113,22 +113,35 @@ const FieldControl = () => {
     console.log("Delete clicked for row 34:", row);
   };
 
-  const handleActive = async (id, active, type) => {
-    console.log("active", id, active, type);
-    let updateValue = {};
-    if (type === "active") {
-      updateValue = {
-        isActive: active,
-      };
-    }
-    let response = await updateAPI(
-      // `/admin/access-management/event-update/${id}`,
-      updateValue
+  // const handleActive = async (id, active, type) => {
+  //   console.log("active", id, active, type);
+  //   let updateValue = {};
+  //   if (type === "active") {
+  //     updateValue = {
+  //       isActive: active,
+  //     };
+  //   }
+  //   let response = await updateAPI(
+  //     // `/admin/access-management/event-update/${id}`,
+  //     updateValue
+  //   );
+  //   setMessage(response);
+  //   toastMessage(response, "success");
+  // };
+  const handleActive = async (row, active) => {
+    console.log(row);
+    let response = await put(
+      `/dashboard/property/updatePropertyType?id=${row._id}`,
+      {
+        active: false,
+      }
     );
-    setMessage(response);
+    setLoading(true);
+    setMessage(response.message);
     toastMessage(response, "success");
+    setDeleteModalOpen(false);
+    setLoading(false);
   };
-
   const handleSubmit = async (formData, isEditing) => {
     console.log("Handle submit");
     try {
@@ -199,6 +212,9 @@ const FieldControl = () => {
     setIsBulkUpload(false);
     setIsModalOpen(false);
     setEditModal(false);
+  };
+  const handleDeleteVenueFeature = (row) => {
+    console.log("delete", row);
   };
 
   const updatePropertyType = (event, index) => {
@@ -340,7 +356,7 @@ const FieldControl = () => {
         <DeleteModal
           open={isDeleteModalOpen}
           onClose={handleCloseDeleteModal}
-          // onDelete={handleDeleteVenueFeature}
+          onDelete={handleActive}
           data={deleteUser}
         />
       </Layout>
