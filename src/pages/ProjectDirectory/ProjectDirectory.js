@@ -71,7 +71,7 @@ export const ProjectDirectory = () => {
   };
 
   const fetchPropertyTypes = async () => {
-    await get(`/dashboard/property/getAllPropertyType?page=1&limit=10`)
+    await get(`/dashboard/property/getAllPropertyType`)
       .then((res) => {
         console.log("res", JSON.stringify(res?.data));
         setPropertyType(res?.data.map(({ _id, name }) => ({ _id, name })));
@@ -329,8 +329,8 @@ export const ProjectDirectory = () => {
     },
     {
       name: "propertyType",
-      label: "property type",
-      title: "Property Type",
+      label: "project type",
+      title: "Project Type",
       isDropdown: true,
       values: propertyType,
     },
@@ -480,7 +480,7 @@ export const ProjectDirectory = () => {
                           name="propertyType"
                           value={propertiesValue[field.name]}
                           onChange={handleChange}
-                          label="Property Type"
+                          label="project type"
                           sx={{ marginTop: "10px", width: "100%" }}
                         >
                           {field.values.map((option) => (

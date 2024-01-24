@@ -420,6 +420,7 @@ const Users = () => {
           key: "date3",
           width: 20,
         },
+        { header: "Images", key: "property", width: 20 },
       ];
 
       worksheet.getRow(1).eachCell((cell) => {
@@ -478,13 +479,28 @@ const Users = () => {
                   });
 
                   // Add image and set height for the row containing the image
+                  // worksheet.addImage(imageId, {
+                  //   tl: { col: 6 + i * 2, row: addedRow.number },
+                  //   ext: { width: 100, height: 100 },
+                  // });
+
+                  const cell = worksheet.getCell(
+                    worksheet.getCell(resIndex + 2, 7 + i).address
+                  );
+                  cell.value = {
+                    text: "Click to View Image",
+                    hyperlink: asset, // You can add a hyperlink to the image if needed
+                    hyperlinkTooltip: "Click to view image",
+                  };
                   worksheet.addImage(imageId, {
-                    tl: { col: 6 + i * 2, row: addedRow.number },
+                    tl: { col: 6 + i, row: resIndex + 1 },
                     ext: { width: 100, height: 100 },
                   });
                 }
+
                 // Set the height for the row based on the number of assets
-                addedRow.height = 100 + assets.length * 100;
+                // addedRow.height = 100 + assets.length * 100;
+                addedRow.height = 100 + assets.length * 30;
               }
             })
           )

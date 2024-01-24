@@ -108,12 +108,12 @@ export const projectDirtableColumns = [
     minWidth: 100,
     align: "center",
   },
-  {
-    id: "dateOfVisit",
-    label: "Last visit date",
-    minWidth: 120,
-    align: "center",
-  },
+  // {
+  //   id: "dateOfVisit",
+  //   label: "Last visit date",
+  //   minWidth: 120,
+  //   align: "center",
+  // },
   // {
   //   id: "labours",
   //   label: "No. Of labours",
