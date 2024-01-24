@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.9a18af06.css",
-    "main.js": "/static/js/main.aee22a28.js",
+    "main.js": "/static/js/main.13125479.js",
     "static/media/CSL Logo.jpg": "/static/media/CSL Logo.0c1411643e3ba34fcf3e.jpg",
     "index.html": "/index.html",
     "main.9a18af06.css.map": "/static/css/main.9a18af06.css.map",
-    "main.aee22a28.js.map": "/static/js/main.aee22a28.js.map"
+    "main.13125479.js.map": "/static/js/main.13125479.js.map"
   },
   "entrypoints": [
     "static/css/main.9a18af06.css",
-    "static/js/main.aee22a28.js"
+    "static/js/main.13125479.js"
   ]
 }
