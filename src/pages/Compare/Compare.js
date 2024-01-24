@@ -317,7 +317,6 @@ const Users = () => {
                   remarks: "ok",
                   asset: [
                     "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/04udd04uddscaled_1000047111.jpg",
-                    "https://petrepublicdev.s2.ap-south-1.amazonaws.com/public/04udd04uddscaled_1000047111.jpg",
                   ],
                   _id: "65a91b1f34609d1cf848cd1c",
                 },
@@ -1300,6 +1299,7 @@ const Users = () => {
         `Status on ${moment.utc(data[2]?.dateOfVisit).format("DD-MM-YYYY")}`,
       ]);
       let fields = [];
+
       data[0].responses.forEach((resp, resIndex) =>
         resp.answer.forEach((ans, ansIndex) => {
           let row = [];
@@ -1311,24 +1311,36 @@ const Users = () => {
           row.push(data[1].responses[resIndex].answer[ansIndex].answer);
           row.push(data[2].responses[resIndex].answer[ansIndex].answer);
 
-          data[0].responses[resIndex].answer[ansIndex].asset.forEach((image) =>
-            row.push(image)
+          data[0].responses[resIndex].answer[ansIndex].asset.forEach(
+            (image) => {
+              row.push(image);
+              fetch(image)
+                .then((r) => {
+                  const image = workbook.addImage({
+                    buffer: r.arrayBuffer(),
+                    extension: "jpeg",
+                  });
+
+                  worksheet.addImage(image, {
+                    tl: { col: 7, row: 2 },
+                    ext: { width: 500, height: 200 },
+                  });
+                })
+                .catch(console.error);
+            }
           );
 
-          data[1].responses[resIndex].answer[ansIndex].asset.forEach((image) =>
-            row.push(image)
-          );
-
-          data[1].responses[resIndex].answer[ansIndex].asset.forEach((image) =>
-            row.push(image)
-          );
+          // data[1].responses[resIndex].answer[ansIndex].asset.forEach(
+          //   (image) => row.push(image)
+          // );
 
           // row.push(ans.asset[0]);
           // console.log(row);
-          fields.push(row);
+          // fields.push(row);
           worksheet.addRow(row);
         })
       );
+
       console.log("fields", fields);
       workbook.xlsx.writeBuffer().then((buffer) => {
         const fileBlob = new Blob([buffer], {

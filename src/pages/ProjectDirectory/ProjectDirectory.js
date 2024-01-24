@@ -215,24 +215,10 @@ export const ProjectDirectory = () => {
 
   let fields = [
     {
-      name: "name",
-      label: "property name",
-      title: "Name",
+      name: "propertyId",
+      label: "Property Id",
+      title: "Property Id",
       type: "text",
-      isDropdown: false,
-    },
-    {
-      name: "address",
-      label: "property address",
-      title: "Address",
-      type: "text",
-      isDropdown: false,
-    },
-    {
-      name: "area",
-      label: "total area covered",
-      title: "Area (in sq.ft)",
-      type: "number",
       isDropdown: false,
     },
     {
@@ -243,6 +229,35 @@ export const ProjectDirectory = () => {
       isDropdown: false,
     },
     {
+      name: "name",
+      label: "project name",
+      title: "Project Name",
+      type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "projectZone",
+      label: "Zone",
+      title: "Project Location/ Zone",
+      type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "address",
+      label: "address",
+      title: "Property Address",
+      type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "area",
+      label: "total area covered",
+      title: "Area (in sq.ft)",
+      type: "number",
+      isDropdown: false,
+    },
+
+    {
       name: "borrowerName",
       label: "borrower name",
       title: "Borrower Name",
@@ -250,12 +265,13 @@ export const ProjectDirectory = () => {
       isDropdown: false,
     },
     {
-      name: "projectZone",
-      label: "project zone",
-      title: "Zone",
+      name: "lan",
+      label: "LAN No.",
+      title: "LAN No",
       type: "text",
       isDropdown: false,
     },
+
     {
       name: "projectCost",
       label: "project cost",
@@ -272,8 +288,8 @@ export const ProjectDirectory = () => {
     },
     {
       name: "loadPOS",
-      label: "load POS",
-      title: "Lead POS",
+      label: "Loan POS",
+      title: "Loan POS",
       type: "number",
       isDropdown: false,
     },

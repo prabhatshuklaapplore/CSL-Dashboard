@@ -6,9 +6,9 @@ export const projectDirtableColumns = [
     align: "left",
   },
   {
-    id: "propertyType.name",
-    label: "Property Name",
-    minWidth: 120,
+    id: "propertyid",
+    label: "Property Id",
+    minWidth: 70,
     align: "left",
   },
   {
@@ -59,6 +59,7 @@ export const projectDirtableColumns = [
     minWidth: 100,
     align: "center",
   },
+
   {
     id: "borrowerAddress",
     label: "Borrower Address",
@@ -90,14 +91,14 @@ export const projectDirtableColumns = [
     align: "center",
   },
   {
-    id: "projectCost",
-    label: "Project Cost",
+    id: "propertyType.name",
+    label: "Project Type",
     minWidth: 100,
     align: "center",
   },
   {
-    id: "propertyType.name",
-    label: "Project Type",
+    id: "projectCost",
+    label: "Project Cost",
     minWidth: 100,
     align: "center",
   },

@@ -24,7 +24,6 @@ import { Plan } from "../pages/Plan/Plan";
 import { ProjectDirectory } from "../pages/ProjectDirectory/ProjectDirectory";
 import FieldControl from "../pages/FieldControl/FieldControl";
 import Compare from "../pages/Compare/Compare";
-import Compare2 from "../pages/Compare2/Compare2";
 
 function PrivateRoute({ children }) {
   const auth = localStorage.getItem("token");
@@ -127,15 +126,6 @@ const routes = [
     ),
     isPrivate: false,
   },
-  // {
-  //   path: "/compare2",
-  //   component: (
-  //     <PrivateRoute>
-  //       <Compare2 />
-  //     </PrivateRoute>
-  //   ),
-  //   isPrivate: false,
-  // },
   {
     path: "/plan",
     component: (
