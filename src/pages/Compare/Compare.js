@@ -12,7 +12,6 @@ import { compareTableColumns } from "../../constants/comparePage";
 import moment from "moment";
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
-import Input from "@mui/material";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -29,12 +28,14 @@ const Users = () => {
 
   const [editModal, setEditModal] = useState(false);
   const [editData, setEditData] = useState({});
+  const [date, setDate] = useState();
 
-  const fetchUsers = async (searchValue) => {
+  const fetchUsers = async (searchValue, date = "") => {
+    console.log(date);
     try {
       setLoading(true);
       const res = await get(
-        `dashboard/visit/getAllVisit?page=${page}&limit=${10}&search=${searchValue}`
+        `dashboard/visit/getAllVisit?page=${page}&limit=${10}&search=${searchValue}&date=${date}`
       );
       setUsers(
         res?.data.map((item) => ({
@@ -105,10 +106,20 @@ const Users = () => {
     setPage(page);
   };
   const handleDateChange = (event) => {
-    const date = new Date(event.target.value);
-    const isoString = date.toISOString();
+    if (!event.target.value) {
+      fetchUsers("");
+    } else {
+      const date = new Date(event.target.value);
+      const isoString = date?.toISOString();
+      console.log("iso", isoString);
+      fetchUsers("", isoString);
+    }
 
-    console.log("date", isoString);
+    // if (isoString) {
+    //   fetchUsers("", isoString);
+    // } else {
+    //   fetchUsers("");
+    // }
   };
 
   const openModal = (type, dataForEdit) => {
@@ -292,7 +303,7 @@ const Users = () => {
               type="date"
               id="date"
               name="enter date"
-              value={""}
+              // value={""}
               onChange={(event) => handleDateChange(event)}
             />
           </div>
