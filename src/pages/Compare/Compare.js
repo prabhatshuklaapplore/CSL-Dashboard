@@ -3,18 +3,16 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Main/Layout";
 import CustomTable from "../../components/Custom/Table/CustomTable";
 import { get, put, post, postFiles } from "../../config/axios";
-import { Typography } from "@mui/material";
+import { Typography, TextField } from "@mui/material";
 import Searchbar from "../../components/Custom/SearchBar/Searchbar";
 import { deleteAPI } from "../../helper/apiCallHelper";
 import { useDebouncedValue } from "../../helper/debounce";
 import { toastMessage } from "../../utils/toastMessage";
-import {
-  compareTableColumns,
-  
-} from "../../constants/comparePage";
+import { compareTableColumns } from "../../constants/comparePage";
 import moment from "moment";
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
+import Input from "@mui/material";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -105,6 +103,12 @@ const Users = () => {
 
   const handleChange = (page) => {
     setPage(page);
+  };
+  const handleDateChange = (event) => {
+    const date = new Date(event.target.value);
+    const isoString = date.toISOString();
+
+    console.log("date", isoString);
   };
 
   const openModal = (type, dataForEdit) => {
@@ -284,6 +288,13 @@ const Users = () => {
                 debounceTime={1000}
               />
             </div>
+            <TextField
+              type="date"
+              id="date"
+              name="enter date"
+              value={""}
+              onChange={(event) => handleDateChange(event)}
+            />
           </div>
           <CustomTable
             data={users}
