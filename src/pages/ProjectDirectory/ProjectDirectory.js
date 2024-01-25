@@ -278,13 +278,13 @@ export const ProjectDirectory = () => {
       type: "text",
       isDropdown: false,
     },
-    {
-      name: "projectCost",
-      label: "project cost",
-      title: "Project Cost",
-      type: "text",
-      isDropdown: false,
-    },
+    // {
+    //   name: "projectCost",
+    //   label: "project cost",
+    //   title: "Project Cost",
+    //   type: "text",
+    //   isDropdown: false,
+    // },
     {
       name: "borrowerMobile",
       label: "mobile no.",
@@ -340,6 +340,8 @@ export const ProjectDirectory = () => {
     const { name, value } = event.target;
     setPropertiesValue((prevValues) => ({
       ...prevValues,
+      area: 0,
+      projectCost: 0,
       [name]: value,
     }));
   };
@@ -349,9 +351,11 @@ export const ProjectDirectory = () => {
     try {
       console.log("prope", propertiesValue);
       await post(`/dashboard/property/addProperty`, propertiesValue);
+      fetchProperties("");
     } catch (error) {
       console.log("err", error);
     }
+    setIsModalOpen(false);
   };
 
   return (
