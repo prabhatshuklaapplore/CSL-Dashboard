@@ -112,7 +112,7 @@ const Users = () => {
       const date = new Date(event.target.value);
       const isoString = date?.toISOString();
       console.log("iso", isoString);
-      fetchUsers("", isoString);
+      fetchUsers(search, isoString);
     }
 
     // if (isoString) {
