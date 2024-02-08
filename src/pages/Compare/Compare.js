@@ -11,7 +11,7 @@ import { toastMessage } from "../../utils/toastMessage";
 import { compareTableColumns } from "../../constants/comparePage";
 import moment from "moment";
 import { saveAs } from "file-saver";
-import ExcelJS from "exceljs";
+import * as html2pdf from "html2pdf.js";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -135,6 +135,18 @@ const Users = () => {
     // Implement the edit action for the selected row
   };
 
+  const generateTableRow = (item) => {
+    return Object.keys(item)
+      .map(
+        (i) =>
+          `<tr>
+            <td style="border: 1px solid black; font-weight: bold; width: 40%">${i}</td>
+            <td style="border: 1px solid black; width: 60%">${item[i]}</td>
+          </tr>`
+      )
+      .join("");
+  };
+
   const handleDownload = async (row) => {
     console.log("row", row);
     try {
@@ -146,134 +158,305 @@ const Users = () => {
       if (res.data.length < 1) {
         throw new Error("no data found");
       }
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("sheet 1");
 
-      worksheet.columns = [
-        { header: "Property", key: "property", width: 20 },
-        { header: "Field Name", key: "fieldName", width: 20 },
-        { header: "Work", key: "work", width: 20 },
-        {
-          header: res?.data[0]?.dateOfVisit
-            ? `Status on ${moment
-                .utc(res?.data[0]?.dateOfVisit)
-                .format("DD-MM-YYYY")}`
-            : "-",
-          key: "date1",
-          width: 20,
-        },
-        {
-          header: res?.data[1]?.dateOfVisit
-            ? `Status on ${moment
-                .utc(res?.data[1]?.dateOfVisit)
-                .format("DD-MM-YYYY")}`
-            : "-",
-          key: "date2",
-          width: 20,
-        },
-        {
-          header: res?.data[2]?.dateOfVisit
-            ? `Status on ${moment
-                .utc(res?.data[2]?.dateOfVisit)
-                .format("DD-MM-YYYY")}`
-            : "-",
-          key: "date3",
-          width: 20,
-        },
-        { header: "Images", key: "property", width: 20 },
-      ];
+      const metadata = {};
 
-      worksheet.getRow(1).eachCell((cell) => {
-        cell.font = { bold: true };
+      row.responses.map((item) => {
+        metadata[item.fieldName] = item.answer;
       });
-      worksheet.getRow(1).height = 30;
 
-      const toDataURL = async (url) => {
-        return new Promise((resolve, reject) => {
-          var xhr = new XMLHttpRequest();
-          xhr.onload = function () {
-            var reader = new FileReader();
-            reader.readAsDataURL(xhr.response);
-            reader.onloadend = function () {
-              resolve({ base64Url: reader.result });
+      const thArray = [];
+      const trObj = {};
+      const imgArray = [];
+      const constructionStatus = {};
+
+      Object.keys(metadata).map((key, i) => {
+        if (i === 0) thArray.push("Particulars/ Work");
+        thArray.push(key);
+
+        metadata[key].map((item) => {
+          if (typeof trObj[item.name] === "undefined") {
+            trObj[item.name] = {
+              [key]: item.answer,
             };
+            return;
+          }
+          const existing = trObj[item.name];
+          trObj[item.name] = {
+            ...existing,
+            [key]: item.answer,
           };
-          xhr.onerror = reject;
-          xhr.open("GET", url);
-          xhr.responseType = "blob";
-          xhr.send();
         });
+      });
+
+      Object.keys(metadata).map((key, i) => {
+        if (i === 0) thArray.push("Particulars/ Work");
+        thArray.push(key);
+
+        metadata[key].map((item) => {
+          if (typeof trObj[item.name] === "undefined") {
+            trObj[item.name] = {
+              [key]: item.answer,
+            };
+            return;
+          }
+          const existing = trObj[item.name];
+          trObj[item.name] = {
+            ...existing,
+            [key]: item.answer,
+          };
+        });
+      });
+
+      Object.keys(trObj).map((key, i) => {
+        const temp = [];
+        temp.push(key);
+        Object.keys(trObj[key]).map((inner, i) => {
+          temp.push(trObj[key][inner]);
+        });
+      });
+
+      Object.keys(metadata).map((key) => {
+        constructionStatus[key] = [];
+        metadata[key].map((item) => {
+          constructionStatus[key].push(item.remarks);
+        });
+      });
+
+      Object.keys(metadata).map((key) => {
+        metadata[key].map((item) => {
+          for (let k = 0; k < item.asset.length; k++) {
+            imgArray.push({
+              key,
+              src: item.asset[k],
+            });
+          }
+        });
+      });
+
+      const element = `
+      <html>
+        <body style="padding:20px" >
+          <div style="display: flex; justify-content: flex-end">
+            <span style="text-decoration: underline; font-weight: bold">
+              Date - ${moment
+                .utc(res?.data[1]?.dateOfVisit)
+                .format("DD-MM-YYYY")}
+            </span>
+          </div>
+          <div style="display: flex; justify-content: center; padding-top: 10px">
+            <span style="text-decoration: underline; font-weight: bold">
+              (Site visit report)
+            </span>
+          </div>
+          <div style="display: flex; justify-content: center; padding-top: 10px">
+            <span style="text-decoration: underline; font-weight: bold">
+              ${res?.data[0]?.name}
+            </span>
+          </div>
+          <table
+            style="
+              margin: 0 auto;
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+              margin-top: 10px;"
+          >
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Borrowing Entity
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.property?.borrowerName
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Project
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.name
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Area
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.property?.area
+              } Sq. Yards</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Borrowing Group
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.property?.groupName
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Promoter
+              </td>
+              <td style="border: 1px solid black; width: 60%">${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Currently Mortgaged property
+              </td>
+              <td style="border: 1px solid black; width: 60%">${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Sanction Loan amount
+              </td>
+              <td style="border: 1px solid black; width: 60%">INR - ${
+                res?.data[0]?.property?.loanSanctionAmount
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Disbursed
+              </td>
+              <td style="border: 1px solid black; width: 60%">INR - ${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Principal Out Standing
+              </td>
+              <td style="border: 1px solid black; width: 60%">INR - ${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Maturity Date
+              </td>
+              <td style="border: 1px solid black; width: 60%">${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Sales Status
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.status
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Report by
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.user.fullname
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Location
+              </td>
+              <td style="border: 1px solid black; width: 60%">${""}</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Quick visit remarks
+              </td>
+              <td style="border: 1px solid black; width: 60%">
+                <ul style="padding-left: 10px">
+                  <li>${res?.data[0]?.constructRemark}</li>
+                  <li>${res?.data[0]?.constructRemark2}</li>
+                  <li>${res?.data[0]?.constructRemark3}</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+
+          <div style="display: flex; justify-content: flex-start; padding-top: 10px">
+            <span style="text-decoration: underline; font-weight: bold">
+              Construction updates:-
+            </span>
+          </div>
+          ${Object.keys(trObj)
+            .map(
+              (key, i) => `
+              <div style="display:flex; flex-direction: column; padding: 5px; margin-bottom: 20px;">
+              <span style="font-weight: bold;">${key}</span>
+                <table
+                  style="
+                    margin: 0 auto;
+                    border: 1px solid black;
+                    border-spacing: 0;
+                    width: 90%;
+                    margin-top: 10px;"
+                >
+                  <tbody>
+                      ${generateTableRow(trObj[key])}
+                  </tbody>
+                </table>
+              </div>`
+            )
+            .join("")}
+
+          <div padding-top: 10px">
+            <span style="text-decoration: underline; font-weight: bold">
+            Construction Status:-
+            </span>
+          </div>
+          <table
+            style="
+              margin: 0 auto;
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+              margin-top: 10px;"
+          >
+          <tbody>
+          ${Object.keys(constructionStatus)
+            .map(
+              (key) => `
+              <tr style="border: 1px solid black">
+                <td style="border: 1px solid black;">${key}</td>
+                <td style="border: 1px solid black;">
+                  <ul style="padding-left: 10px">
+                    ${constructionStatus[key]
+                      .map((item) => `<li>${item}</li>`)
+                      .join("")}
+                  </ul>
+                </td>
+              </tr>
+              `
+            )
+            .join("")}
+            </tbody>
+          </table>
+          
+          <div class="html2pdf__page-break"></div>
+
+          <div style="display: flex; justify-content: flex-start; padding-top: 10px">
+            <span style="text-decoration: underline; font-weight: bold">
+            Site Photograph:-
+            </span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            ${imgArray
+              .map(
+                (img) =>
+                  `<div style="height:200px; width:200px; display:flex; flex-direction: column;"><span>${img.key}</span><img crossorigin="anonymous" src="${img.src}?origin=${window.location.host}" alt="${img.key}" height="200px"  width="200px"></div>`
+              )
+              .join("")}
+          </div>
+        <body>
+      </html>
+      `;
+
+      var opt = {
+        margin: 0.5,
+        filename: `${res?.data[0]?.name}.pdf`,
+        image: { type: "jpg", quality: 0.9 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
 
-      const promise = Promise.all(
-        res?.data[0]?.responses?.map(async (resp, resIndex) =>
-          Promise.all(
-            resp?.answer?.map(async (ans, ansIndex) => {
-              let row = [];
-              row.push(res?.data[0]?.name);
-              row.push(resp?.fieldName);
-              row.push(ans?.name);
-              row.push(
-                res?.data[0]?.responses[resIndex]?.answer[ansIndex]?.answer
-              );
-              row.push(
-                res?.data[1]?.responses[resIndex]?.answer[ansIndex]?.answer
-              );
-              row.push(
-                res?.data[2]?.responses[resIndex]?.answer[ansIndex]?.answer
-              );
+      const worker = html2pdf().from(element).set(opt).save();
 
-              const addedRow = worksheet.addRow(row);
-              addedRow.height = 100;
-
-              const assets =
-                res?.data[0]?.responses[resIndex]?.answer[ansIndex]?.asset;
-
-              if (assets && assets.length > 0) {
-                for (let i = 0; i < assets.length; i++) {
-                  const asset = assets[i];
-                  const result = await toDataURL(asset);
-                  const imageId = workbook.addImage({
-                    base64: result.base64Url,
-                    extension: "jpeg",
-                  });
-
-                  // worksheet.addImage(imageId, {
-                  //   tl: { col: 6 + i * 2, row: addedRow.number },
-                  //   ext: { width: 100, height: 100 },
-                  // });
-
-                  const cell = worksheet.getCell(
-                    worksheet.getCell(resIndex + 2, 7 + i).address
-                  );
-                  cell.value = {
-                    text: "Click to View Image",
-                    hyperlink: asset,
-                    hyperlinkTooltip: "Click to view image",
-                  };
-                  worksheet.addImage(imageId, {
-                    tl: { col: 6 + i, row: resIndex + 1 },
-                    ext: { width: 100, height: 100 },
-                  });
-                }
-                addedRow.height = 100 + assets.length * 30;
-              }
-            })
-          )
-        )
-      );
-
-      promise.then(() => {
-        workbook.xlsx.writeBuffer().then((buffer) => {
-          const fileBlob = new Blob([buffer], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          saveAs(fileBlob, "Compare.xlsx");
-
-          fetchUsers("");
-        });
-        setLoading(false);
-      });
+      worker.then(() => setLoading(false));
     } catch (err) {
       console.error("Error:", err);
       setLoading(false);
