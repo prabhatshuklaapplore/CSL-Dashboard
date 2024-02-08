@@ -165,15 +165,11 @@ const Users = () => {
         metadata[item.fieldName] = item.answer;
       });
 
-      const thArray = [];
       const trObj = {};
       const imgArray = [];
       const constructionStatus = {};
 
       Object.keys(metadata).map((key, i) => {
-        if (i === 0) thArray.push("Particulars/ Work");
-        thArray.push(key);
-
         metadata[key].map((item) => {
           if (typeof trObj[item.name] === "undefined") {
             trObj[item.name] = {
@@ -186,40 +182,16 @@ const Users = () => {
             ...existing,
             [key]: item.answer,
           };
-        });
-      });
-
-      Object.keys(metadata).map((key, i) => {
-        if (i === 0) thArray.push("Particulars/ Work");
-        thArray.push(key);
-
-        metadata[key].map((item) => {
-          if (typeof trObj[item.name] === "undefined") {
-            trObj[item.name] = {
-              [key]: item.answer,
-            };
-            return;
-          }
-          const existing = trObj[item.name];
-          trObj[item.name] = {
-            ...existing,
-            [key]: item.answer,
-          };
-        });
-      });
-
-      Object.keys(trObj).map((key, i) => {
-        const temp = [];
-        temp.push(key);
-        Object.keys(trObj[key]).map((inner, i) => {
-          temp.push(trObj[key][inner]);
         });
       });
 
       Object.keys(metadata).map((key) => {
         constructionStatus[key] = [];
         metadata[key].map((item) => {
-          constructionStatus[key].push(item.remarks);
+          constructionStatus[key].push({
+            item: item.name,
+            remarks: item.remarks,
+          });
         });
       });
 
@@ -369,8 +341,8 @@ const Users = () => {
           </table>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
-            <span style="text-decoration: underline; font-weight: bold">
-              Construction updates:-
+            <span>
+            <h2 style="text-decoration: underline;">Construction updates:-</h2>
             </span>
           </div>
           ${Object.keys(trObj)
@@ -394,51 +366,64 @@ const Users = () => {
             )
             .join("")}
 
+          <div class="html2pdf__page-break"></div>
+
           <div padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
-            Construction Status:-
+            <h2 style="text-decoration: underline;">Construction Status:-</h2>
             </span>
           </div>
-          <table
-            style="
-              margin: 0 auto;
-              border: 1px solid black;
-              border-spacing: 0;
-              width: 90%;
-              margin-top: 10px;"
-          >
-          <tbody>
           ${Object.keys(constructionStatus)
             .map(
               (key) => `
-              <tr style="border: 1px solid black">
-                <td style="border: 1px solid black;">${key}</td>
-                <td style="border: 1px solid black;">
-                  <ul style="padding-left: 10px">
-                    ${constructionStatus[key]
-                      .map((item) => `<li>${item}</li>`)
-                      .join("")}
-                  </ul>
-                </td>
-              </tr>
+              <div style="display:flex; flex-direction: column; padding: 5px; margin-bottom: 20px;">
+              <span style="font-weight: bold;">${key}</span>
+                <table
+                  style="
+                    margin: 0 auto;
+                    border: 1px solid black;
+                    border-spacing: 0;
+                    width: 90%;
+                    margin-top: 10px;"
+                >
+                  <tbody>
+                  ${constructionStatus[key]
+                    .map(
+                      (item) => `
+                      <tr>
+                        <td style="border: 1px solid black; font-weight: bold; width: 40%">${item.item}</td>
+                        <td style="border: 1px solid black; width: 60%">${item.remarks}</td>
+                      </tr>
+                      `
+                    )
+                    .join("")}
+                  </tbody>
+                </table>
+              </div>
               `
             )
             .join("")}
-            </tbody>
-          </table>
           
           <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
-            Site Photograph:-
+            <h2 style="text-decoration: underline;">Site Photograph:-</h2>
             </span>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; row-gap: 20px;">
             ${imgArray
               .map(
-                (img) =>
-                  `<div style="height:200px; width:200px; display:flex; flex-direction: column;"><span>${img.key}</span><img crossorigin="anonymous" src="${img.src}?origin=${window.location.host}" alt="${img.key}" height="200px"  width="200px"></div>`
+                (img, i) =>
+                  `<div style="height:200px; width:200px; display:flex; flex-direction: column;"><span>${
+                    img.key
+                  }</span><img crossorigin="anonymous" src="${img.src}?origin=${
+                    window.location.host
+                  }" alt="${img.key}" height="200px"  width="200px"></div>${
+                    (i + 1) % 7 === 0
+                      ? '<div class="html2pdf__page-break"></div>'
+                      : ""
+                  }`
               )
               .join("")}
           </div>
