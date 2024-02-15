@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Main/Layout";
 import CustomTable from "../../components/Custom/Table/CustomTable";
-import { get, put, post, postFiles } from "../../config/axios";
+import { get, put } from "../../config/axios";
 import { Typography, TextField } from "@mui/material";
 import Searchbar from "../../components/Custom/SearchBar/Searchbar";
 import { deleteAPI } from "../../helper/apiCallHelper";
@@ -10,7 +10,6 @@ import { useDebouncedValue } from "../../helper/debounce";
 import { toastMessage } from "../../utils/toastMessage";
 import { compareTableColumns } from "../../constants/comparePage";
 import moment from "moment";
-import { saveAs } from "file-saver";
 import * as html2pdf from "html2pdf.js";
 
 const Users = () => {
@@ -135,17 +134,67 @@ const Users = () => {
     // Implement the edit action for the selected row
   };
 
-  const generateTableRow = (item) => {
-    return Object.keys(item)
+  const generateTableRow = (item, tableHeader) => {
+    const trArr = [];
+
+    Object.keys(item).map((key) => {
+      const thTemp = [];
+      thTemp.push(key);
+      for (let z = 1; z < tableHeader.length; z++)
+        thTemp.push(item[key][tableHeader[z]]);
+
+      trArr.push(thTemp);
+    });
+
+    return trArr
       .map(
-        (i) =>
-          `<tr>
-            <td style="border: 1px solid black; font-weight: bold; width: 40%">${i}</td>
-            <td style="border: 1px solid black; width: 60%">${item[i]}</td>
-          </tr>`
+        (i) => `
+      <tr style="border: 1px solid black;">
+      ${i
+        .map(
+          (inner) =>
+            `<td style="border: 1px solid black; font-weight: bold;">${inner}</td>`
+        )
+        .join("")}
+      </tr>
+      `
       )
       .join("");
   };
+
+  const generateStatusRow = (item, tableHeader) => {
+    const thArr = ["Construction Remarks"];
+    for (let y = 1; y < tableHeader.length; y++) {
+      const temp = item[tableHeader[y]].map((item) => item.remarks);
+      thArr.push(temp);
+    }
+
+    return thArr
+      .map((i, idx) => {
+        if (idx === 0)
+          return `<td style="border: 1px solid black;">
+          <h6>${i}</h6>
+        </td>`;
+
+        return `<td style="border: 1px solid black;"><span>${i.join(
+          "\n"
+        )}</span></td>`;
+      })
+      .join("");
+  };
+
+  function getRandom(arr, n) {
+    var result = new Array(n),
+      len = arr.length,
+      taken = new Array(len);
+    if (n > len) return arr;
+    while (n--) {
+      var x = Math.floor(Math.random() * len);
+      result[n] = arr[x in taken ? taken[x] : x];
+      taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+  }
 
   const handleDownload = async (row) => {
     console.log("row", row);
@@ -165,12 +214,16 @@ const Users = () => {
         metadata[item.fieldName] = item.answer;
       });
 
+      const items = [];
+      const thArr = [];
+      const tableHeader = [];
       const trObj = {};
-      const imgArray = [];
-      const constructionStatus = {};
+      const imgObj = {};
 
-      Object.keys(metadata).map((key, i) => {
+      Object.keys(metadata).map((key) => {
+        thArr.push(key);
         metadata[key].map((item) => {
+          items.push(key);
           if (typeof trObj[item.name] === "undefined") {
             trObj[item.name] = {
               [key]: item.answer,
@@ -185,25 +238,15 @@ const Users = () => {
         });
       });
 
-      Object.keys(metadata).map((key) => {
-        constructionStatus[key] = [];
-        metadata[key].map((item) => {
-          constructionStatus[key].push({
-            item: item.name,
-            remarks: item.remarks,
-          });
-        });
-      });
+      tableHeader.push("Particulars/Work", ...thArr);
 
       Object.keys(metadata).map((key) => {
+        imgObj[key] = [];
         metadata[key].map((item) => {
-          for (let k = 0; k < item.asset.length; k++) {
-            imgArray.push({
-              key,
-              src: item.asset[k],
-            });
-          }
+          imgObj[key] = [...imgObj[key], ...item.asset];
         });
+
+        imgObj[key] = getRandom(imgObj[key], 4);
       });
 
       const element = `
@@ -332,78 +375,80 @@ const Users = () => {
               </td>
               <td style="border: 1px solid black; width: 60%">
                 <ul style="padding-left: 10px">
-                  <li>${res?.data[0]?.constructRemark}</li>
-                  <li>${res?.data[0]?.constructRemark2}</li>
-                  <li>${res?.data[0]?.constructRemark3}</li>
+                  <li>${
+                    res?.data[0]?.constructRemark === ""
+                      ? "N/A"
+                      : res?.data[0]?.constructRemark
+                  }</li>
+                  <li>${
+                    res?.data[0]?.constructRemark2 === ""
+                      ? "N/A"
+                      : res?.data[0]?.constructRemark2
+                  }</li>
+                  <li>${
+                    res?.data[0]?.constructRemark3 === ""
+                      ? "N/A"
+                      : res?.data[0]?.constructRemark3
+                  }</li>
                 </ul>
               </td>
             </tr>
           </table>
 
-          <div style="display: flex; justify-content: flex-start; padding-top: 10px">
+          <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
-            <h2 style="text-decoration: underline;">Construction updates:-</h2>
+              <h2 style="text-decoration: underline;">Construction updates:-</h2>
             </span>
           </div>
-          ${Object.keys(trObj)
-            .map(
-              (key, i) => `
-              <div style="display:flex; flex-direction: column; padding: 5px; margin-bottom: 20px;">
-              <span style="font-weight: bold;">${key}</span>
-                <table
-                  style="
-                    margin: 0 auto;
-                    border: 1px solid black;
-                    border-spacing: 0;
-                    width: 90%;
-                    margin-top: 10px;"
-                >
-                  <tbody>
-                      ${generateTableRow(trObj[key])}
-                  </tbody>
-                </table>
-              </div>`
-            )
-            .join("")}
+          <table
+            style="
+              margin: 0 auto;
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+            margin-top: 10px;"
+          >
+            <tr style="font-weight: bold;border: 1px solid black;">
+              ${tableHeader
+                .map(
+                  (item) =>
+                    `<th style="font-weight: nornal; border: 1px solid black;">${item}</th>`
+                )
+                .join("")}
+            </tr>
+            <tbody>
+              ${generateTableRow(trObj, tableHeader)}
+            </tbody>
+          </table>
 
-          <div class="html2pdf__page-break"></div>
-
-          <div padding-top: 10px">
-            <span style="text-decoration: underline; font-weight: bold">
-            <h2 style="text-decoration: underline;">Construction Status:-</h2>
+          <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
+            <span>
+              <h2 style="text-decoration: underline;">Construction Status:-</h2>
             </span>
           </div>
-          ${Object.keys(constructionStatus)
-            .map(
-              (key) => `
-              <div style="display:flex; flex-direction: column; padding: 5px; margin-bottom: 20px;">
-              <span style="font-weight: bold;">${key}</span>
-                <table
-                  style="
-                    margin: 0 auto;
-                    border: 1px solid black;
-                    border-spacing: 0;
-                    width: 90%;
-                    margin-top: 10px;"
-                >
-                  <tbody>
-                  ${constructionStatus[key]
-                    .map(
-                      (item) => `
-                      <tr>
-                        <td style="border: 1px solid black; font-weight: bold; width: 40%">${item.item}</td>
-                        <td style="border: 1px solid black; width: 60%">${item.remarks}</td>
-                      </tr>
-                      `
-                    )
-                    .join("")}
-                  </tbody>
-                </table>
-              </div>
-              `
-            )
-            .join("")}
-          
+          <table
+            style="
+              margin: 0 auto;
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+              margin-top: 10px;"
+          >
+            <tr style="font-weight: bold;border: 1px solid black;">
+            ${tableHeader
+              .map(
+                (item) =>
+                  `<th style="font-weight: nornal; border: 1px solid black;">${item}</th>`
+              )
+              .join("")}
+            </tr>
+            <tbody>
+            <tr style="border: 1px solid black;">
+              ${generateStatusRow(metadata, tableHeader)}
+            </tr>
+            </tbody>
+          </table>
+
           <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
@@ -411,22 +456,37 @@ const Users = () => {
             <h2 style="text-decoration: underline;">Site Photograph:-</h2>
             </span>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; row-gap: 20px;">
-            ${imgArray
+          <table
+            style="
+              margin: 0 auto;
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+              margin-top: 10px;"
+          >
+            ${Object.keys(imgObj)
               .map(
-                (img, i) =>
-                  `<div style="height:200px; width:200px; display:flex; flex-direction: column;"><span>${
-                    img.key
-                  }</span><img crossorigin="anonymous" src="${img.src}?origin=${
-                    window.location.host
-                  }" alt="${img.key}" height="200px"  width="200px"></div>${
-                    (i + 1) % 7 === 0
-                      ? '<div class="html2pdf__page-break"></div>'
-                      : ""
-                  }`
+                (key) =>
+                  `
+                    <tr style="font-weight: bold;border: 1px solid black;">
+                      <td style="border: 1px solid black; padding: 10px;">
+                        ${key}
+                      </td>
+                      <td style="padding: 10px;">
+                        <div style="display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto; grid-gap: 10px;">
+                          ${imgObj[key]
+                            .map(
+                              (img) =>
+                                `<img style="border: 1px solid black; height: 250px; width: 250px;" src="${img}" alt="${img}" crossorigin="*" >`
+                            )
+                            .join("")}
+                        </div>
+                      </td>
+                    </tr>
+                  `
               )
               .join("")}
-          </div>
+          </table>
         <body>
       </html>
       `;
