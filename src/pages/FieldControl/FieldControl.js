@@ -42,6 +42,7 @@ const FieldControl = () => {
     {
       fieldName: "",
       subHeadingName: "",
+      remarkFieldRequired: "",
       options: [
         {
           name: "",
@@ -440,6 +441,14 @@ const FieldControl = () => {
                         sx={{ marginTop: "5px" }}
                         // error={schemeErr.name}
                         // helperText={schemeErr.name}
+                      />
+                    </div>
+                    <div style={{ marginLeft: "2rem" }}>
+                      <Typography>Remarks field Required</Typography>
+                      <Switch
+                        name="remarkFieldRequired"
+                        checked={propertiesOption[index].remarkFieldRequired}
+                        onChange={(event) => updatePropertyType(event, index)}
                       />
                     </div>
                   </div>
