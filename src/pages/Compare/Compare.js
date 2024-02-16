@@ -172,13 +172,21 @@ const Users = () => {
     return thArr
       .map((i, idx) => {
         if (idx === 0)
-          return `<td style="border: 1px solid black;">
+          return `<td style="border: 1px solid black; vertical-align:top !important;">
           <h6>${i}</h6>
         </td>`;
 
-        return `<td style="border: 1px solid black;"><span>${i.join(
-          "\n"
-        )}</span></td>`;
+        const li = i.map((item) =>
+          item === "" || typeof item === "undefined" ? null : `<li>${item}</li>`
+        );
+
+        const ul = `<ul style="padding-left: 10px">
+          ${li.join("")}
+        </ul>`;
+
+        return `<td style="border: 1px solid black; vertical-align:top !important;">
+          ${ul}
+        </td>`;
       })
       .join("");
   };
@@ -365,12 +373,6 @@ const Users = () => {
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%">
-                Location
-              </td>
-              <td style="border: 1px solid black; width: 60%">${""}</td>
-            </tr>
-            <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
                 Quick visit remarks
               </td>
               <td style="border: 1px solid black; width: 60%">
@@ -451,6 +453,32 @@ const Users = () => {
 
           <div class="html2pdf__page-break"></div>
 
+          <table
+            style="
+                margin: 0 auto;
+                border: 1px solid black;
+                border-spacing: 0;
+                width: 90%;
+                margin-top: 10px;"
+            >
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Location
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.address
+              }</td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                Location
+              </td>
+              <td style="border: 1px solid black; width: 60%">${
+                res?.data[0]?.numberOfLabours
+              }</td>
+            </tr>
+          </table>
+
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
             <h2 style="text-decoration: underline;">Site Photograph:-</h2>
@@ -487,15 +515,15 @@ const Users = () => {
               )
               .join("")}
           </table>
-        <body>
+        </body>
       </html>
       `;
 
       var opt = {
-        margin: 0.5,
+        margin: 0.2,
         filename: `${res?.data[0]?.name}.pdf`,
         image: { type: "jpg", quality: 0.9 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: { scale: 1.5, useCORS: true },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
 
