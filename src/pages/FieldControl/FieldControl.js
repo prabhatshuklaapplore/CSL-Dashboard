@@ -42,7 +42,7 @@ const FieldControl = () => {
     {
       fieldName: "",
       subHeadingName: "",
-      remarkFieldRequired: "",
+      remarkFieldRequired: false,
       options: [
         {
           name: "",
@@ -219,8 +219,18 @@ const FieldControl = () => {
   };
 
   const updatePropertyType = (event, index) => {
-    const { name, value } = event.target;
+    const { name, value, checked } = event.target;
+
     const updatedPropertiesOption = [...propertiesOption];
+
+    if (name === "remarkFieldRequired") {
+      updatedPropertiesOption[index] = {
+        ...updatedPropertiesOption[index],
+        [name]: checked,
+      };
+      setpropertiesOption(updatedPropertiesOption);
+      return;
+    }
 
     updatedPropertiesOption[index] = {
       ...updatedPropertiesOption[index],
@@ -298,6 +308,7 @@ const FieldControl = () => {
     const newObj = {
       fieldName: "",
       subHeadingName: "",
+      remarkFieldRequired: false,
       options: [
         {
           name: "",
