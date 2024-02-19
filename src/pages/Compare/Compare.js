@@ -153,7 +153,7 @@ const Users = () => {
       ${i
         .map(
           (inner) =>
-            `<td style="border: 1px solid black; font-weight: bold;">${inner}</td>`
+            `<td style="border: 1px solid black; padding: 1px;">${inner}</td>`
         )
         .join("")}
       </tr>
@@ -172,20 +172,12 @@ const Users = () => {
     return thArr
       .map((i, idx) => {
         if (idx === 0)
-          return `<td style="border: 1px solid black; vertical-align:top !important;">
-          <h6>${i}</h6>
+          return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
+          <span>${i}</span>
         </td>`;
 
-        const li = i.map((item) =>
-          item === "" || typeof item === "undefined" ? null : `<li>${item}</li>`
-        );
-
-        const ul = `<ul style="padding-left: 10px">
-          ${li.join("")}
-        </ul>`;
-
-        return `<td style="border: 1px solid black; vertical-align:top !important;">
-          ${ul}
+        return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
+          <span>${i.join("\n")}</span>
         </td>`;
       })
       .join("");
@@ -286,113 +278,103 @@ const Users = () => {
               margin-top: 10px;"
           >
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Borrowing Entity
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.property?.borrowerName
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Project
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.name
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Area
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.property?.area
               } Sq. Yards</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Borrowing Group
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.property?.groupName
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Promoter
               </td>
-              <td style="border: 1px solid black; width: 60%">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Currently Mortgaged property
               </td>
-              <td style="border: 1px solid black; width: 60%">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Sanction Loan amount
               </td>
-              <td style="border: 1px solid black; width: 60%">INR - ${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
                 res?.data[0]?.property?.loanSanctionAmount
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Disbursed
               </td>
-              <td style="border: 1px solid black; width: 60%">INR - ${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${""}</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Principal Out Standing
               </td>
-              <td style="border: 1px solid black; width: 60%">INR - ${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${""}</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Maturity Date
               </td>
-              <td style="border: 1px solid black; width: 60%">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Sales Status
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.status
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Report by
               </td>
-              <td style="border: 1px solid black; width: 60%">${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
                 res?.data[0]?.user.fullname
               }</td>
             </tr>
             <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Quick visit remarks
               </td>
-              <td style="border: 1px solid black; width: 60%">
-                <ul style="padding-left: 10px">
-                  <li>${
-                    res?.data[0]?.constructRemark === ""
-                      ? "N/A"
-                      : res?.data[0]?.constructRemark
-                  }</li>
-                  <li>${
-                    res?.data[0]?.constructRemark2 === ""
-                      ? "N/A"
-                      : res?.data[0]?.constructRemark2
-                  }</li>
-                  <li>${
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">
+                <span>
+                  ${
                     res?.data[0]?.constructRemark3 === ""
                       ? "N/A"
                       : res?.data[0]?.constructRemark3
-                  }</li>
-                </ul>
+                  }
+                </span>
               </td>
             </tr>
           </table>
@@ -414,7 +396,7 @@ const Users = () => {
               ${tableHeader
                 .map(
                   (item) =>
-                    `<th style="font-weight: nornal; border: 1px solid black;">${item}</th>`
+                    `<th style="font-weight: nornal; border: 1px solid black; padding: 2px;">${item}</th>`
                 )
                 .join("")}
             </tr>
@@ -440,7 +422,7 @@ const Users = () => {
             ${tableHeader
               .map(
                 (item) =>
-                  `<th style="font-weight: nornal; border: 1px solid black;">${item}</th>`
+                  `<th style="font-weight: nornal; border: 1px solid black; padding: 2px;">${item}</th>`
               )
               .join("")}
             </tr>
@@ -471,10 +453,10 @@ const Users = () => {
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%">
-                Location
+                No. of Labours
               </td>
               <td style="border: 1px solid black; width: 60%">${
-                res?.data[0]?.numberOfLabours
+                res?.data[0]?.constructRemark2
               }</td>
             </tr>
           </table>
@@ -484,24 +466,17 @@ const Users = () => {
             <h2 style="text-decoration: underline;">Site Photograph:-</h2>
             </span>
           </div>
-          <table
-            style="
-              margin: 0 auto;
-              border: 1px solid black;
-              border-spacing: 0;
-              width: 90%;
-              margin-top: 10px;"
-          >
+          <div>
             ${Object.keys(imgObj)
               .map(
-                (key) =>
+                (key, i) =>
                   `
-                    <tr style="font-weight: bold;border: 1px solid black;">
-                      <td style="border: 1px solid black; padding: 10px;">
+                    <div style="display: flex; margin-top:5px">
+                      <div style="border: 1px solid black; padding-left: 5px; width: 20%; display: flex; align-items: center;">
                         ${key}
-                      </td>
-                      <td style="padding: 10px;">
-                        <div style="display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto; grid-gap: 10px;">
+                      </div>
+                      <div style="border: 1px solid black; width: 80%;">
+                        <div style="display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto; grid-gap: 10px; margin-left: 80px; padding: 10px 0px 10px 0px;">
                           ${imgObj[key]
                             .map(
                               (img) =>
@@ -509,18 +484,23 @@ const Users = () => {
                             )
                             .join("")}
                         </div>
-                      </td>
-                    </tr>
+                      </div>
+                    </div>
+                    ${
+                      i && i % 3 === 0
+                        ? `<div class="html2pdf__page-break"></div>`
+                        : ""
+                    }
                   `
               )
               .join("")}
-          </table>
+          </div>
         </body>
       </html>
       `;
 
       var opt = {
-        margin: 0.2,
+        margin: 0.5,
         filename: `${res?.data[0]?.name}.pdf`,
         image: { type: "jpg", quality: 0.9 },
         html2canvas: { scale: 1.5, useCORS: true },
