@@ -177,10 +177,10 @@ const Users = () => {
         </td>`;
 
         return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
-          <ol style="padding: 12px;">${i[0]
+          <ul style="padding: 15px;">${i[0]
             .split(".")
             .map((li) => `<li>${li}</li>`)
-            .join("")}</ol>
+            .join("")}</ul>
         </td>`;
       })
       .join("");
