@@ -177,7 +177,10 @@ const Users = () => {
         </td>`;
 
         return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
-          <span>${i.join("\n")}</span>
+          <ol style="padding: 12px;">${i[0]
+            .split(".")
+            .map((li) => `<li>${li}</li>`)
+            .join("")}</ol>
         </td>`;
       })
       .join("");
@@ -196,17 +199,21 @@ const Users = () => {
     return result;
   }
 
+  function parseAnswer(answer) {
+    if (answer.trim().toLowerCase() === "completed") return "Done";
+    if (
+      answer.trim().toLowerCase() === "" ||
+      answer.trim().toLowerCase() === "not started"
+    )
+      return "-";
+
+    return answer;
+  }
+
   const handleDownload = async (row) => {
     console.log("row", row);
     try {
       setLoading(true);
-      const res = await get(
-        `/dashboard/visit/getAllVisit?propertyId=${row?.property?._id}`
-      );
-      console.log("resp", res);
-      if (res.data.length < 1) {
-        throw new Error("no data found");
-      }
 
       const metadata = {};
 
@@ -226,14 +233,14 @@ const Users = () => {
           items.push(key);
           if (typeof trObj[item.name] === "undefined") {
             trObj[item.name] = {
-              [key]: item.answer,
+              [key]: parseAnswer(item.answer),
             };
             return;
           }
           const existing = trObj[item.name];
           trObj[item.name] = {
             ...existing,
-            [key]: item.answer,
+            [key]: parseAnswer(item.answer),
           };
         });
       });
@@ -254,9 +261,7 @@ const Users = () => {
         <body style="padding:20px" >
           <div style="display: flex; justify-content: flex-end">
             <span style="text-decoration: underline; font-weight: bold">
-              Date - ${moment
-                .utc(res?.data[1]?.dateOfVisit)
-                .format("DD-MM-YYYY")}
+              Date - ${moment.utc(row?.dateOfVisit).format("DD-MM-YYYY")}
             </span>
           </div>
           <div style="display: flex; justify-content: center; padding-top: 10px">
@@ -266,12 +271,11 @@ const Users = () => {
           </div>
           <div style="display: flex; justify-content: center; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
-              ${res?.data[0]?.name}
+              ${row?.name}
             </span>
           </div>
           <table
             style="
-              margin: 0 auto;
               border: 1px solid black;
               border-spacing: 0;
               width: 90%;
@@ -282,7 +286,7 @@ const Users = () => {
                 Borrowing Entity
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.property?.borrowerName
+                row?.property?.borrowerName
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -290,7 +294,7 @@ const Users = () => {
                 Project
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.name
+                row?.name
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -298,7 +302,7 @@ const Users = () => {
                 Area
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.property?.area
+                row?.property?.area
               } Sq. Yards</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -306,7 +310,7 @@ const Users = () => {
                 Borrowing Group
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.property?.groupName
+                row?.property?.groupName
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -326,7 +330,7 @@ const Users = () => {
                 Sanction Loan amount
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
-                res?.data[0]?.property?.loanSanctionAmount
+                row?.property?.loanSanctionAmount
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -352,7 +356,7 @@ const Users = () => {
                 Sales Status
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.status
+                row?.status
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -360,7 +364,7 @@ const Users = () => {
                 Report by
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                res?.data[0]?.user.fullname
+                row?.user.fullname
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -370,14 +374,14 @@ const Users = () => {
               <td style="border: 1px solid black; width: 60%; padding: 2px;">
                 <span>
                   ${
-                    res?.data[0]?.constructRemark3 === ""
-                      ? "N/A"
-                      : res?.data[0]?.constructRemark3
+                    row?.constructRemark3 === "" ? "N/A" : row?.constructRemark3
                   }
                 </span>
               </td>
             </tr>
           </table>
+
+          <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
@@ -386,7 +390,6 @@ const Users = () => {
           </div>
           <table
             style="
-              margin: 0 auto;
               border: 1px solid black;
               border-spacing: 0;
               width: 90%;
@@ -405,6 +408,8 @@ const Users = () => {
             </tbody>
           </table>
 
+          <div class="html2pdf__page-break"></div>
+
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
               <h2 style="text-decoration: underline;">Construction Status:-</h2>
@@ -412,7 +417,6 @@ const Users = () => {
           </div>
           <table
             style="
-              margin: 0 auto;
               border: 1px solid black;
               border-spacing: 0;
               width: 90%;
@@ -437,7 +441,6 @@ const Users = () => {
 
           <table
             style="
-                margin: 0 auto;
                 border: 1px solid black;
                 border-spacing: 0;
                 width: 90%;
@@ -448,7 +451,7 @@ const Users = () => {
                 Location
               </td>
               <td style="border: 1px solid black; width: 60%">${
-                res?.data[0]?.address
+                row?.address
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -456,7 +459,7 @@ const Users = () => {
                 No. of Labours
               </td>
               <td style="border: 1px solid black; width: 60%">${
-                res?.data[0]?.constructRemark2
+                row?.constructRemark2
               }</td>
             </tr>
           </table>
@@ -486,11 +489,7 @@ const Users = () => {
                         </div>
                       </div>
                     </div>
-                    ${
-                      i && i % 3 === 0
-                        ? `<div class="html2pdf__page-break"></div>`
-                        : ""
-                    }
+                    <div class="html2pdf__page-break"></div>
                   `
               )
               .join("")}
@@ -501,10 +500,10 @@ const Users = () => {
 
       var opt = {
         margin: 0.5,
-        filename: `${res?.data[0]?.name}.pdf`,
+        filename: `${row?.name}.pdf`,
         image: { type: "jpg", quality: 0.9 },
         html2canvas: { scale: 1.5, useCORS: true },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
       };
 
       const worker = html2pdf().from(element).set(opt).save();
