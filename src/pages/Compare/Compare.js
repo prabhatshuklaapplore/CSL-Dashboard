@@ -177,7 +177,7 @@ const Users = () => {
         </td>`;
 
         return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
-          <ul style="padding: 15px;">${i[0]
+          <ul style="padding: 2px 15px 2px 15px;">${i[0]
             .split(".")
             .map((li) => (li.trim().length ? `<li>${li}</li>` : null))
             .join("")}</ul>
