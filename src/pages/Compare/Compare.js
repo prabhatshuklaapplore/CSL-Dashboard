@@ -179,7 +179,7 @@ const Users = () => {
         return `<td style="border: 1px solid black; vertical-align:top !important; padding: 2px;">
           <ul style="padding: 15px;">${i[0]
             .split(".")
-            .map((li) => `<li>${li}</li>`)
+            .map((li) => (li.trim().length ? `<li>${li}</li>` : null))
             .join("")}</ul>
         </td>`;
       })
@@ -224,6 +224,9 @@ const Users = () => {
       const items = [];
       const thArr = [];
       const tableHeader = [];
+      const tableHeaderOne = [];
+      const tableHeaderTwo = [];
+      const tableHeaderOneTrObj = {};
       const trObj = {};
       const imgObj = {};
 
@@ -245,7 +248,32 @@ const Users = () => {
         });
       });
 
+      Object.keys(trObj).map((trKey) => {
+        if (
+          Object.keys(trObj[trKey]).includes("Facade") ||
+          Object.keys(trObj[trKey]).includes("Terrace")
+        )
+          tableHeaderOneTrObj[trKey] = trObj[trKey];
+      });
+
+      tableHeaderOne.push(
+        "Particulars/Work",
+        thArr[0],
+        thArr[thArr.length - 1]
+      );
+
+      tableHeaderTwo.push("Particulars/Work");
+      thArr.map((item, i) => {
+        if (i && i < thArr.length - 2) tableHeaderTwo.push(item);
+      });
+
       tableHeader.push("Particulars/Work", ...thArr);
+
+      Object.keys(trObj).map((key) => {
+        thArr.map((th) => {
+          if (typeof trObj[key][th] === "undefined") trObj[key][th] = "-";
+        });
+      });
 
       Object.keys(metadata).map((key) => {
         imgObj[key] = [];
@@ -396,7 +424,7 @@ const Users = () => {
             margin-top: 10px;"
           >
             <tr style="font-weight: bold;border: 1px solid black;">
-              ${tableHeader
+              ${tableHeaderOne
                 .map(
                   (item) =>
                     `<th style="font-weight: nornal; border: 1px solid black; padding: 2px;">${item}</th>`
@@ -404,7 +432,35 @@ const Users = () => {
                 .join("")}
             </tr>
             <tbody>
-              ${generateTableRow(trObj, tableHeader)}
+              ${generateTableRow(tableHeaderOneTrObj, tableHeaderOne)}
+              <tr style="border: 1px solid black;">
+              ${generateStatusRow(metadata, tableHeaderOne)}
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
+            <span>
+              <h2 style="text-decoration: underline;">Construction updates:-</h2>
+            </span>
+          </div>
+          <table
+            style="
+              border: 1px solid black;
+              border-spacing: 0;
+              width: 90%;
+            margin-top: 10px;"
+          >
+            <tr style="font-weight: bold;border: 1px solid black;">
+              ${tableHeaderTwo
+                .map(
+                  (item) =>
+                    `<th style="font-weight: nornal; border: 1px solid black; padding: 2px;">${item}</th>`
+                )
+                .join("")}
+            </tr>
+            <tbody>
+              ${generateTableRow(trObj, tableHeaderTwo)}
             </tbody>
           </table>
 
@@ -423,7 +479,7 @@ const Users = () => {
               margin-top: 10px;"
           >
             <tr style="font-weight: bold;border: 1px solid black;">
-            ${tableHeader
+            ${tableHeaderTwo
               .map(
                 (item) =>
                   `<th style="font-weight: nornal; border: 1px solid black; padding: 2px;">${item}</th>`
@@ -432,7 +488,7 @@ const Users = () => {
             </tr>
             <tbody>
             <tr style="border: 1px solid black;">
-              ${generateStatusRow(metadata, tableHeader)}
+              ${generateStatusRow(metadata, tableHeaderTwo)}
             </tr>
             </tbody>
           </table>
