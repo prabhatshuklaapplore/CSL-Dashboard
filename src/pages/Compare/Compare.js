@@ -413,7 +413,7 @@ const Users = () => {
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
-              <h2 style="text-decoration: underline;">Construction updates:-</h2>
+              <h3 style="text-decoration: underline;">Construction updates:-</h3>
             </span>
           </div>
           <table
@@ -421,9 +421,9 @@ const Users = () => {
               border: 1px solid black;
               border-spacing: 0;
               width: 90%;
-            margin-top: 10px;"
+              margin-top: 10px;"
           >
-            <tr style="font-weight: bold;border: 1px solid black;">
+            <tr style="font-weight: bold; border: 1px solid black;">
               ${tableHeaderOne
                 .map(
                   (item) =>
@@ -439,11 +439,6 @@ const Users = () => {
             </tbody>
           </table>
 
-          <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
-            <span>
-              <h2 style="text-decoration: underline;">Construction updates:-</h2>
-            </span>
-          </div>
           <table
             style="
               border: 1px solid black;
@@ -468,7 +463,7 @@ const Users = () => {
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
-              <h2 style="text-decoration: underline;">Construction Status:-</h2>
+              <h3 style="text-decoration: underline;">Construction Status:-</h3>
             </span>
           </div>
           <table
@@ -522,7 +517,7 @@ const Users = () => {
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
-            <h2 style="text-decoration: underline;">Site Photograph:-</h2>
+            <h3 style="text-decoration: underline;">Site Photograph:-</h3>
             </span>
           </div>
           <div>
