@@ -513,7 +513,7 @@ const Users = () => {
                 GeoTag
               </td>
               <td style="border: 1px solid black; width: 60%">
-                <img src="${res.data}">
+                <img height="300" width="500" src="${res.data}">
               </td>
             </tr>
             <tr style="border: 1px solid black">
