@@ -212,6 +212,9 @@ const Users = () => {
 
   const handleDownload = async (row) => {
     console.log("row", row);
+    const res = await get(
+      `dashboard/visit/getLocationImage?long=${row?.location?.longitude}&lat=${row?.location?.latitude}`
+    );
     try {
       setLoading(true);
 
@@ -507,6 +510,14 @@ const Users = () => {
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%">
+                GeoTag
+              </td>
+              <td style="border: 1px solid black; width: 60%">
+                <img src="${res.data}">
+              </td>
+            </tr>
+            <tr style="border: 1px solid black">
+              <td style="border: 1px solid black; font-weight: bold; width: 40%">
                 No. of Labours
               </td>
               <td style="border: 1px solid black; width: 60%">${
@@ -514,6 +525,8 @@ const Users = () => {
               }</td>
             </tr>
           </table>
+
+          <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
