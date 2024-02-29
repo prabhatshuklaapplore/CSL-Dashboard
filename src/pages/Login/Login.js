@@ -43,6 +43,7 @@ const Login = (props) => {
       let data = { ...formData };
       await post("/dashboard/auth/login", data)
         .then((res) => {
+          if (res.status === 404) return;
           localStorage.setItem("token", res?.data?.token);
           setToken(res?.data?.token);
           window.location.reload();
