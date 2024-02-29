@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://csl-api.applore.in/api";
-// const API_BASE_URL = "http://localhost:8008/api/v1";
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 // Create an Axios instance with common configuration
 let token = localStorage.getItem("token");

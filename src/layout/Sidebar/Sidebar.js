@@ -44,7 +44,6 @@ const Sidebar = () => {
       <Box className={styles.main_div}>
         <Box className={styles.header_div}>
           <img src={logo1} alt="logo" className={styles.logo} />
-          {/* <Typography className={styles.header_name}>HAPP NOW</Typography> */}
         </Box>
 
         <List className={styles.list_div}>
