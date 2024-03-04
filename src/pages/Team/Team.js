@@ -251,7 +251,7 @@ export const Team = () => {
         isEditing={editModal}
         isBulkUpload={isBulkUpload}
         link={
-          "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/8ma6h8ma6hSample_Team.xlsx"
+          "https://csl-assets-1.s3.ap-south-1.amazonaws.com/public/8ma6h8ma6hSample_Team+(2).xlsx"
         }
       />
     </>

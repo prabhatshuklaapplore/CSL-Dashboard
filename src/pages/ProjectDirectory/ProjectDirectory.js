@@ -447,7 +447,7 @@ export const ProjectDirectory = () => {
         isBulkUpload={isBulkUpload}
         downloadButton={true}
         link={
-          "https://petrepublicdev.s3.ap-south-1.amazonaws.com/public/flrrdflrrdProject_Directory_Sample.xlsx"
+          "https://csl-assets-1.s3.ap-south-1.amazonaws.com/public/flrrdflrrdProject_Directory_Sample.xlsx"
         }
       />
 
