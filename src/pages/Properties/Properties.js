@@ -739,7 +739,7 @@ const Users = () => {
     <>
       <Layout>
         <div style={{ padding: "1rem" }}>
-          <Typography variant="h5">Poperty</Typography>
+          <Typography variant="h5">Property</Typography>
           <div
             style={{
               display: "flex",
@@ -792,7 +792,6 @@ const Users = () => {
         header={editModal ? "Edit Patient" : "Add Patient"}
         initialData={editData}
         isEditing={editModal}
-        
       />
     </>
   );

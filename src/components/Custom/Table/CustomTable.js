@@ -47,12 +47,12 @@ const CustomTable = ({
     let result = obj;
 
     for (const key of keys) {
+      if (key === "supervisor") return [];
       result = result[key];
       if (result === undefined) {
         return "";
       }
     }
-
     return result;
   };
 
@@ -170,28 +170,7 @@ const CustomTable = ({
                               handleActive(row?._id, newActiveValue, "active");
                             }}
                           />
-                        ) : // :column.label === "Status(Active / Inactive)" ? (
-                        //   <Switch
-                        //     checked={checked}
-                        //     onChange={() => {
-                        //       handleSwitch(row);
-                        //     }}
-                        //     inputProps={{ "aria-label": "controlled" }}
-                        //     style={{ display: "flex" }}
-                        //   />
-                        // )
-                        column.label === "Status" ? (
-                          // <Switch
-                          //   // checked={}
-                          //   {...label}
-                          //   defaultChecked
-                          //   // disabled={true}
-                          //   inputProps={{ "aria-label": "controlled" }}
-                          //   onChange={(event) => {
-                          //     const newActiveValue = event.target.checked;
-                          //     handleActive(row?._id, newActiveValue, "status");
-                          //   }}
-                          // />
+                        ) : column.label === "Status" ? (
                           <Switch
                             checked={row[column.id]}
                             onChange={(event) => {

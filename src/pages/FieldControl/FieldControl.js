@@ -207,6 +207,10 @@ const FieldControl = () => {
     console.log("switch ", row);
   };
 
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
+
   const handleBulkUpload = (formData) => {
     console.log("Bulk Upload data:", formData);
 
@@ -364,6 +368,9 @@ const FieldControl = () => {
             handleDelete={handleDelete}
             handleStatus={handleStatus}
             handleActive={(row, active) => handleActive(row, active)}
+            handlePageChange={(page) => handlePageChange(page)}
+            pageNumber={page}
+            pageCount={pageCount}
             loading={loading}
           />
         </div>

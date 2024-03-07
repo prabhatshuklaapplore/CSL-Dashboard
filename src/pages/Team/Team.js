@@ -34,7 +34,7 @@ export const Team = () => {
   const debouncedSearch = useDebouncedValue(search, 2000);
 
   const fetchEvents = async (searchValue) => {
-    await get(`/dashboard/dashUser/getAllAppUsers?page=${page}&limit=10`)
+    await get(`/dashboard/dashUser/getAllAppUsers?page=${page}&limit=${10}`)
       .then((res) => {
         console.log("res", res?.data);
         setEvents(
@@ -224,6 +224,10 @@ export const Team = () => {
             handleDelete={handleDelete}
             handleStatus={handleStatus}
             handleActive={(row, active) => handleActive(row, active)}
+            handlePageChange={(page) => handleChange(page)}
+            handleDisplay={handleDisplay}
+            pageNumber={page}
+            pageCount={pageCount}
             loading={loading}
           />
         </div>

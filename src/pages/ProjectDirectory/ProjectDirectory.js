@@ -63,6 +63,7 @@ export const ProjectDirectory = () => {
         console.log("res1", res?.data);
         setProperties(res?.data);
         setLoading(false);
+        setPageCount(res?.totalPage);
       })
       .catch((err) => {
         console.log("err", err);
@@ -133,6 +134,10 @@ export const ProjectDirectory = () => {
     });
     setMessage(response.message);
     toastMessage(response.message, "success");
+  };
+
+  const handlePageChange = (page) => {
+    setPage(page);
   };
 
   const handleSubmit = async (formData, isEditing) => {
@@ -426,6 +431,9 @@ export const ProjectDirectory = () => {
             handleDelete={handleDelete}
             handleStatus={handleStatus}
             handleActive={(row, active) => handleActive(row, active)}
+            handlePageChange={(page) => handlePageChange(page)}
+            pageNumber={page}
+            pageCount={pageCount}
             loading={loading}
           />
         </div>

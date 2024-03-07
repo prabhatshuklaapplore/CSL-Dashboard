@@ -53,6 +53,7 @@ export const Plan = () => {
           }))
         );
         setLoading(false);
+        setPageCount(res?.totalPage);
       })
       .catch((err) => {
         console.log("err", err);
