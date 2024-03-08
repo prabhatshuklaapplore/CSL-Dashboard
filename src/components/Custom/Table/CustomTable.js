@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import style from "./CustomTable.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CircularProgress, Grid, Pagination, Switch } from "@mui/material";
@@ -39,7 +39,7 @@ const CustomTable = ({
   };
 
   let page = pageNumber ? pageNumber : 1;
-  let limit = pageLimit ? pageLimit : 20;
+  let limit = pageLimit ? pageLimit : 10;
   let count = pageCount ? pageCount : 1;
 
   const getNestedProperty = (obj, path) => {

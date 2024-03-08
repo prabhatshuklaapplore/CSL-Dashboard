@@ -62,7 +62,9 @@ export const Plan = () => {
   };
 
   const fetchUsers = async () => {
-    await get(`/dashboard/dashUser/getAllAppUsers?page=${page}&limit=10`)
+    await get(
+      `/dashboard/dashUser/getAllAppUsers?page=${page}&limit=10000000000`
+    )
       .then((res) => {
         console.log("res", res?.data);
         setUsersList(
@@ -91,7 +93,9 @@ export const Plan = () => {
   // };
 
   const fetchProperties = async () => {
-    await get(`/dashboard/property/getAllProperty?page=${page}&limit=10`)
+    await get(
+      `/dashboard/property/getAllProperty?page=${page}&limit=1000000000`
+    )
       .then((res) => {
         console.log("res", res?.data);
         setPropertiesList(res?.data.map(({ _id, name }) => ({ _id, name })));

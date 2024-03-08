@@ -32,7 +32,7 @@ export const IndividualPerformance = () => {
 
   const fetchEvents = async (searchValue) => {
     await get(
-      `dashboard/visit/getAllVisit?search=${searchValue}&page=${page}&limit=${20}`
+      `dashboard/visit/getAllVisit?search=${searchValue}&page=${page}&limit=${10}`
     )
       .then((res) => {
         console.log("res", res?.data);
