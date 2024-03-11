@@ -186,7 +186,15 @@ export const ProjectDirectory = () => {
     } else if (type === "edit") {
       setEditModal(true);
       console.log(">", dataForEdit);
-      setEditData({ ...dataForEdit, propertyType: "" });
+      setEditData({
+        ...dataForEdit,
+        propertyType: dataForEdit.propertyType._id,
+      });
+      const { action, ...propertyData } = dataForEdit;
+      setPropertiesValue({
+        ...propertyData,
+        propertyType: dataForEdit.propertyType._id,
+      });
     } else if (type === "bulkUpload") {
       setIsBulkUpload(true);
     }
@@ -226,7 +234,7 @@ export const ProjectDirectory = () => {
 
   let fields = [
     {
-      name: "propertyId",
+      name: "_id",
       label: "property id",
       title: "Property Id",
       type: "text",
@@ -380,9 +388,31 @@ export const ProjectDirectory = () => {
   console.log("proper", propertiesValue);
   const submitProperty = async () => {
     try {
-      console.log("prope", propertiesValue);
-      await post(`/dashboard/property/addProperty`, propertiesValue);
-      fetchProperties("");
+      if (editModal) {
+        console.log("prope", propertiesValue);
+        await put(`/dashboard/property/updateProperty`, propertiesValue);
+        fetchProperties("");
+        setEditModal(false);
+        setPropertiesValue({
+          name: "",
+          address: "",
+          area: "",
+          groupName: "",
+          borrowerName: "",
+          projectZone: "",
+          projectCost: "",
+          loanSanctionAmount: "",
+          loadPOS: "",
+          groupSanctionAmount: "",
+          groupPOS: "",
+          propertyType: "",
+        });
+      } else {
+        console.log("prope", propertiesValue);
+        await post(`/dashboard/property/addProperty`, propertiesValue);
+        fetchProperties("");
+        setIsModalOpen(false);
+      }
     } catch (error) {
       console.log("err", error);
     }
@@ -561,6 +591,20 @@ export const ProjectDirectory = () => {
         open={editModal}
         onClose={() => {
           setEditModal(false);
+          setPropertiesValue({
+            name: "",
+            address: "",
+            area: "",
+            groupName: "",
+            borrowerName: "",
+            projectZone: "",
+            projectCost: "",
+            loanSanctionAmount: "",
+            loadPOS: "",
+            groupSanctionAmount: "",
+            groupPOS: "",
+            propertyType: "",
+          });
         }}
         aria-labelledby="modal-title"
         aria-describedby="modal-description"

@@ -185,7 +185,9 @@ const FieldControl = () => {
     } else if (type === "edit") {
       console.log(">", dataForEdit);
       setEditModal(true);
-      setEditData(dataForEdit);
+      setEditData(dataForEdit._id);
+      setPropertyTypeName(dataForEdit.name);
+      setpropertiesOption(dataForEdit.fieldOptions);
     } else if (type === "bulkUpload") {
       setIsBulkUpload(true);
     }
@@ -307,6 +309,20 @@ const FieldControl = () => {
     }
     setMessage("Successfully added");
     setIsModalOpen(false);
+  };
+
+  const updatePropertyTypeAPI = async () => {
+    try {
+      await put(`/dashboard/property/updatePropertyType`, {
+        _id: editData,
+        name: propertyTypeName,
+        fieldOptions: propertiesOption,
+      });
+    } catch (error) {
+      console.log("err", error);
+    }
+    setMessage("Successfully added");
+    setEditModal(false);
   };
 
   const addpropertiesOption = () => {
@@ -640,14 +656,14 @@ const FieldControl = () => {
             <Typography>{"Property Type/Name"}</Typography>
             <TextField
               name="fieldName"
-              value={editData.name}
+              value={propertyTypeName}
               label={"ex. WS Large / MSME"}
               onChange={(event) => setPropertyTypeName(event.target.value)}
               sx={{ marginTop: "5px" }}
               // error={schemeErr.name}
               // helperText={schemeErr.name}
             />
-            {editData?.fieldOptions?.map((form, index) => {
+            {propertiesOption.map((form, index) => {
               return (
                 <div
                   style={{
@@ -666,7 +682,7 @@ const FieldControl = () => {
                       <Typography>{"Property Type/Name"}</Typography>
                       <TextField
                         name="fieldName"
-                        value={editData.fieldOptions[index].fieldName}
+                        value={propertiesOption[index].fieldName}
                         label={"ex. WS Large / MSME"}
                         onChange={(event) => updatePropertyType(event, index)}
                         sx={{ marginTop: "5px" }}
@@ -678,7 +694,7 @@ const FieldControl = () => {
                       <Typography>{"Sub Type Building / Tower"}</Typography>
                       <TextField
                         name="subHeadingName"
-                        value={editData.fieldOptions[index].subHeadingName}
+                        value={propertiesOption[index].subHeadingName}
                         label={"ex. Pre Structure/ Structure Work etc."}
                         onChange={(event) => updatePropertyType(event, index)}
                         sx={{ marginTop: "5px" }}
@@ -690,9 +706,7 @@ const FieldControl = () => {
                       <Typography>Remarks field Required</Typography>
                       <Switch
                         name="remarkFieldRequired"
-                        checked={
-                          editData.fieldOptions[index].remarkFieldRequired
-                        }
+                        checked={propertiesOption[index].remarkFieldRequired}
                         onChange={(event) => updatePropertyType(event, index)}
                       />
                     </div>
@@ -842,7 +856,7 @@ const FieldControl = () => {
             <Button
               variant="contained"
               // style={{ margin: "25px 0" }}
-              onClick={submitPropertyType}
+              onClick={updatePropertyTypeAPI}
               // fullWidth
             >
               Submit property type
