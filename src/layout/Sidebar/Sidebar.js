@@ -25,7 +25,7 @@ export const sidebarListArr = [
     icon: EngineeringIcon,
     url: "/individualPerformance",
   },
-  { label: "Compare", icon: CompareIcon, url: "/compare" },
+  { label: "Reports", icon: CompareIcon, url: "/reports" },
   { label: "Plan", icon: DifferenceIcon, url: "/plan" },
   { label: "Project Directory", icon: FolderIcon, url: "/projectDirectory" },
   { label: "Field-Control", icon: FolderIcon, url: "/fieldControl" },

@@ -118,7 +118,7 @@ const routes = [
     isPrivate: false,
   },
   {
-    path: "/compare",
+    path: "/reports",
     component: (
       <PrivateRoute>
         <Compare />

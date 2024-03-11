@@ -348,13 +348,17 @@ const Users = () => {
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Promoter
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
+                row?.property?.promotorName
+              }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Currently Mortgaged property
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
+                row?.property?.currentlyMortgagedProperty
+              }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
@@ -380,7 +384,9 @@ const Users = () => {
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Maturity Date
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${moment
+                .utc(row?.property?.maturityDate)
+                .format("DD-MM-YYYY")}</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
@@ -553,8 +559,7 @@ const Users = () => {
                         </div>
                       </div>
                     </div>
-                    <div class="html2pdf__page-break"></div>
-                  `
+                    <div class="html2pdf__page-break"></div>`
               )
               .join("")}
           </div>
@@ -567,7 +572,7 @@ const Users = () => {
         filename: `${row?.name}.pdf`,
         image: { type: "jpg", quality: 0.9 },
         html2canvas: { scale: 1.5, useCORS: true },
-        jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
 
       const worker = html2pdf().from(element).set(opt).save();

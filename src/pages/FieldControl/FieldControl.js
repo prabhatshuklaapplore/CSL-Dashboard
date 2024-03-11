@@ -63,7 +63,7 @@ const FieldControl = () => {
         setEvents(
           res?.data.map((item) => ({
             ...item,
-            action: { edit: false, delete: true },
+            action: { edit: true, delete: true },
           }))
         );
         setPageCount(res?.totalPage);
@@ -183,6 +183,7 @@ const FieldControl = () => {
     if (type === "add") {
       setIsModalOpen(true);
     } else if (type === "edit") {
+      console.log(">", dataForEdit);
       setEditModal(true);
       setEditData(dataForEdit);
     } else if (type === "bulkUpload") {
@@ -363,7 +364,6 @@ const FieldControl = () => {
           <CustomTable
             data={events}
             columns={fieldControltableColumns}
-            // handleEdit={(row) => openModal("edit", row)}
             handleEdit={(row) => openModal("edit", row)}
             handleDelete={handleDelete}
             handleStatus={handleStatus}
@@ -381,15 +381,6 @@ const FieldControl = () => {
           data={deleteUser}
         />
       </Layout>
-      <FormModal
-        isOpen={isModalOpen || editModal}
-        onClose={() => closeModal(editModal ? "edit" : "add")}
-        onSubmit={handleSubmit}
-        fields={fieldControlformFields}
-        header={editModal ? "Edit Property Type" : "Add Property Type"}
-        initialData={editData}
-        isEditing={editModal}
-      />
       <Modal
         open={isModalOpen}
         onClose={() => {
@@ -472,6 +463,242 @@ const FieldControl = () => {
                   </div>
 
                   {form?.options.map((item, idx) => {
+                    return (
+                      <>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            // justifyContent: "space-between",
+                            border: "1px solid darkgrey",
+                            margin: "1rem 0",
+                            padding: "1rem",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                            }}
+                          >
+                            <div>
+                              <Typography>
+                                Building Name / Tower Name
+                              </Typography>
+                              <TextField
+                                name="name"
+                                value={item?.name}
+                                label="ex Tower Name / Basement / 1st Floor"
+                                onChange={(event) =>
+                                  updateSlabProperty(event, index, idx)
+                                }
+                                sx={{ width: "100%", marginTop: "5px" }}
+                                // error={slabErr[index]?.clubName}
+                                // helperText={slabErr[index]?.clubName}
+                              />
+                            </div>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <div>
+                              <Typography>Option 1</Typography>
+                              <TextField
+                                name="option1"
+                                value={item?.option1}
+                                label="ex. Completed/ Not started/ WIP"
+                                onChange={(event) =>
+                                  updateSlabProperty(event, index, idx)
+                                }
+                                // error={slabErr[index]?.clubName}
+                                // helperText={slabErr[index]?.clubName}
+                              />
+                            </div>
+                            <div style={{ marginLeft: "2rem" }}>
+                              <Typography>Option 2</Typography>
+                              <TextField
+                                name="option2"
+                                value={item?.option2}
+                                label="ex. Completed/ Not started/ WIP"
+                                onChange={(event) =>
+                                  updateSlabProperty(event, index, idx)
+                                }
+                                // error={slabErr[index]?.clubName}
+                                // helperText={slabErr[index]?.clubName}
+                              />
+                            </div>
+                            <div style={{ marginLeft: "2rem" }}>
+                              <Typography>Option 3</Typography>
+                              <TextField
+                                name="option3"
+                                value={item?.option3}
+                                label="ex. Completed/ Not started/ WIP"
+                                onChange={(event) =>
+                                  updateSlabProperty(event, index, idx)
+                                }
+                                // error={slabErr[index]?.clubName}
+                                // helperText={slabErr[index]?.clubName}
+                              />
+                            </div>
+                          </div>
+                          <div style={{ display: "flex", marginTop: "16px" }}>
+                            <div>
+                              <Typography>Photograph Required</Typography>
+                              <Switch
+                                name="photographRequired"
+                                checked={item?.photographRequired || false}
+                                onChange={(event) =>
+                                  updateCheckSwitch(event, index, idx)
+                                }
+                              />
+                            </div>
+                            <div style={{ marginLeft: "2rem" }}>
+                              <Typography>Remarks field Required</Typography>
+                              <Switch
+                                name="remarkFieldRequired"
+                                checked={item?.remarkFieldRequired || false}
+                                onChange={(event) =>
+                                  updateCheckSwitch(event, index, idx)
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                  <div
+                    style={{
+                      marginTop: "1rem",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={() => addOptions(index)}
+                    >
+                      add another work type
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+            <div
+              style={{
+                marginTop: "1rem",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Button
+                variant="contained"
+                style={{ marginTop: "1rem" }}
+                onClick={addpropertiesOption}
+                // fullWidth
+              >
+                ADD another field
+              </Button>
+            </div>
+
+            <Button
+              variant="contained"
+              // style={{ margin: "25px 0" }}
+              onClick={submitPropertyType}
+              // fullWidth
+            >
+              Submit property type
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={editModal}
+        onClose={() => {
+          setEditModal(false);
+        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            height: "100rem",
+          }}
+          className={style.main_div}
+        >
+          <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
+            EDIT PROPERTY TYPE
+          </h2>
+          <div style={{ padding: "0 0rem" }}>
+            <Typography>{"Property Type/Name"}</Typography>
+            <TextField
+              name="fieldName"
+              value={editData.name}
+              label={"ex. WS Large / MSME"}
+              onChange={(event) => setPropertyTypeName(event.target.value)}
+              sx={{ marginTop: "5px" }}
+              // error={schemeErr.name}
+              // helperText={schemeErr.name}
+            />
+            {editData?.fieldOptions?.map((form, index) => {
+              return (
+                <div
+                  style={{
+                    // border: "1px solid grey",
+                    margin: "10px 0",
+                    border: "2px solid grey",
+                    padding: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    <div>
+                      <Typography>{"Property Type/Name"}</Typography>
+                      <TextField
+                        name="fieldName"
+                        value={editData.fieldOptions[index].fieldName}
+                        label={"ex. WS Large / MSME"}
+                        onChange={(event) => updatePropertyType(event, index)}
+                        sx={{ marginTop: "5px" }}
+                        // error={schemeErr.name}
+                        // helperText={schemeErr.name}
+                      />
+                    </div>
+                    <div style={{ marginLeft: "2rem" }}>
+                      <Typography>{"Sub Type Building / Tower"}</Typography>
+                      <TextField
+                        name="subHeadingName"
+                        value={editData.fieldOptions[index].subHeadingName}
+                        label={"ex. Pre Structure/ Structure Work etc."}
+                        onChange={(event) => updatePropertyType(event, index)}
+                        sx={{ marginTop: "5px" }}
+                        // error={schemeErr.name}
+                        // helperText={schemeErr.name}
+                      />
+                    </div>
+                    <div style={{ marginLeft: "2rem" }}>
+                      <Typography>Remarks field Required</Typography>
+                      <Switch
+                        name="remarkFieldRequired"
+                        checked={
+                          editData.fieldOptions[index].remarkFieldRequired
+                        }
+                        onChange={(event) => updatePropertyType(event, index)}
+                      />
+                    </div>
+                  </div>
+
+                  {form?.options?.map((item, idx) => {
                     return (
                       <>
                         <div

@@ -61,7 +61,12 @@ export const ProjectDirectory = () => {
     )
       .then((res) => {
         console.log("res1", res?.data);
-        setProperties(res?.data);
+        setProperties(
+          res?.data.map((item) => ({
+            ...item,
+            action: { edit: true, delete: false },
+          }))
+        );
         setLoading(false);
         setPageCount(res?.totalPage);
       })
@@ -180,7 +185,8 @@ export const ProjectDirectory = () => {
       setIsModalOpen(true);
     } else if (type === "edit") {
       setEditModal(true);
-      setEditData(dataForEdit);
+      console.log(">", dataForEdit);
+      setEditData({ ...dataForEdit, propertyType: "" });
     } else if (type === "bulkUpload") {
       setIsBulkUpload(true);
     }
@@ -268,12 +274,32 @@ export const ProjectDirectory = () => {
       type: "text",
       isDropdown: false,
     },
-
     {
       name: "borrowerName",
-      label: "name",
+      label: "Borrower Name",
       title: "Borrower Name",
       type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "promotorName",
+      label: "Promotor Name",
+      title: "Promotor Name",
+      type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "currentlyMortgagedProperty",
+      label: "Currently Mortgaged Property",
+      title: "Currently Mortgaged Property",
+      type: "text",
+      isDropdown: false,
+    },
+    {
+      name: "maturityDate",
+      label: "",
+      title: "Maturity Date",
+      type: "date",
       isDropdown: false,
     },
     {
@@ -426,7 +452,6 @@ export const ProjectDirectory = () => {
           <CustomTable
             data={properties}
             columns={projectDirtableColumns}
-            // handleEdit={(row) => openModal("edit", row)}
             handleEdit={(row) => openModal("edit", row)}
             handleDelete={handleDelete}
             handleStatus={handleStatus}
@@ -508,6 +533,79 @@ export const ProjectDirectory = () => {
                         <TextField
                           name={field?.name}
                           value={propertiesValue[field.name]}
+                          label={field?.label}
+                          onChange={(e) => handleChange(e)}
+                          type={field?.type}
+                          sx={{ marginTop: "10px" }}
+                          // error={schemeErr.name}
+                          // helperText={schemeErr.name}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </form>
+          <Button
+            variant="contained"
+            style={{ marginTop: "1.5rem" }}
+            onClick={submitProperty}
+            // fullWidth
+          >
+            Submit property type
+          </Button>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={editModal}
+        onClose={() => {
+          setEditModal(false);
+        }}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+          className={style.main_div}
+        >
+          <h2 style={{ textAlign: "center", textDecoration: "underline" }}>
+            EDIT PROPERTY
+          </h2>
+          <form className={style.form_div}>
+            {fields &&
+              fields.map((field, idx) => {
+                return (
+                  <div style={{ marginTop: "1rem" }}>
+                    {field.isDropdown ? (
+                      <div key={idx} style={{ padding: "0 1rem" }}>
+                        <Typography>{field.title}</Typography>
+                        <TextField
+                          select
+                          name="propertyType"
+                          value={editData[field.name]}
+                          onChange={handleChange}
+                          label="project type"
+                          sx={{ marginTop: "10px", width: "100%" }}
+                        >
+                          {field.values.map((option) => (
+                            <MenuItem key={option} value={option._id}>
+                              {option.name}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </div>
+                    ) : (
+                      <div key={idx} style={{ padding: "0 1rem" }}>
+                        <Typography>{field.title}</Typography>
+                        <TextField
+                          name={field?.name}
+                          value={editData[field.name]}
                           label={field?.label}
                           onChange={(e) => handleChange(e)}
                           type={field?.type}
