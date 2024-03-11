@@ -372,13 +372,17 @@ const Users = () => {
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Disbursed
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
+                row?.property?.loanDisbursedAmount
+              }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Principal Out Standing
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${""}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
+                row?.property?.loadPOS
+              }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">

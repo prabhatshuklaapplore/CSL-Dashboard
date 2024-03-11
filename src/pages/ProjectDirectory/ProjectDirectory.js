@@ -346,6 +346,13 @@ export const ProjectDirectory = () => {
       isDropdown: false,
     },
     {
+      name: "loanDisbursedAmount",
+      label: "amount",
+      title: "Loan Disbursed Amount",
+      type: "text",
+      isDropdown: false,
+    },
+    {
       name: "loadPOS",
       label: "Loan POS",
       title: "Loan POS",
@@ -632,7 +639,7 @@ export const ProjectDirectory = () => {
                         <TextField
                           select
                           name="propertyType"
-                          value={editData[field.name]}
+                          value={propertiesValue[field.name]}
                           onChange={handleChange}
                           label="project type"
                           sx={{ marginTop: "10px", width: "100%" }}
@@ -649,7 +656,7 @@ export const ProjectDirectory = () => {
                         <Typography>{field.title}</Typography>
                         <TextField
                           name={field?.name}
-                          value={editData[field.name]}
+                          value={propertiesValue[field.name]}
                           label={field?.label}
                           onChange={(e) => handleChange(e)}
                           type={field?.type}
