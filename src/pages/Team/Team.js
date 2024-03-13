@@ -34,7 +34,9 @@ export const Team = () => {
   const debouncedSearch = useDebouncedValue(search, 2000);
 
   const fetchEvents = async (searchValue) => {
-    await get(`/dashboard/dashUser/getAllAppUsers?page=${page}&limit=${10}`)
+    await get(
+      `/dashboard/dashUser/getAllAppUsers?page=${page}&limit=${10}&admin`
+    )
       .then((res) => {
         console.log("res", res?.data);
         setEvents(

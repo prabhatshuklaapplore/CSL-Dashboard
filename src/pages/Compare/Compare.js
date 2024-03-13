@@ -302,7 +302,7 @@ const Users = () => {
           </div>
           <div style="display: flex; justify-content: center; padding-top: 10px">
             <span style="text-decoration: underline; font-weight: bold">
-              ${row?.name}
+              ${row?.name ?? "-"}
             </span>
           </div>
           <table
@@ -317,7 +317,7 @@ const Users = () => {
                 Borrowing Entity
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.property?.borrowerName
+                row?.property?.borrowerName ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -325,7 +325,7 @@ const Users = () => {
                 Project
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.name
+                row?.name ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -333,7 +333,7 @@ const Users = () => {
                 Area
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.property?.area
+                row?.property?.area ?? "-"
               } Sq. Yards</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -341,7 +341,7 @@ const Users = () => {
                 Borrowing Group
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.property?.groupName
+                row?.property?.groupName ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -349,7 +349,7 @@ const Users = () => {
                 Promoter
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.property?.promotorName
+                row?.property?.promotorName ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -357,7 +357,7 @@ const Users = () => {
                 Currently Mortgaged property
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.property?.currentlyMortgagedProperty
+                row?.property?.currentlyMortgagedProperty ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -365,7 +365,7 @@ const Users = () => {
                 Sanction Loan amount
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
-                row?.property?.loanSanctionAmount
+                row?.property?.loanSanctionAmount ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -373,7 +373,7 @@ const Users = () => {
                 Disbursed
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
-                row?.property?.loanDisbursedAmount
+                row?.property?.loanDisbursedAmount ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -381,23 +381,24 @@ const Users = () => {
                 Principal Out Standing
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">INR - ${
-                row?.property?.loadPOS
+                row?.property?.loadPOS ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Maturity Date
               </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">${moment
-                .utc(row?.property?.maturityDate)
-                .format("DD-MM-YYYY")}</td>
+              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
+                moment.utc(row?.property?.maturityDate).format("DD-MM-YYYY") ??
+                "-"
+              }</td>
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Report by
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.user.fullname
+                row?.user.fullname ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -406,9 +407,7 @@ const Users = () => {
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">
                 <span>
-                  ${
-                    row?.constructRemark3 === "" ? "N/A" : row?.constructRemark3
-                  }
+                  ${row?.constructRemark3 === "" ? "-" : row?.constructRemark3}
                 </span>
               </td>
             </tr>
@@ -503,7 +502,7 @@ const Users = () => {
                 Location
               </td>
               <td style="border: 1px solid black; width: 60%">${
-                row?.address
+                row?.address ?? "-"
               }</td>
             </tr>
             <tr style="border: 1px solid black">
@@ -519,7 +518,7 @@ const Users = () => {
                 No. of Labours
               </td>
               <td style="border: 1px solid black; width: 60%">${
-                row?.constructRemark2
+                row?.constructRemark2 === "" ? "-" : row?.constructRemark2
               }</td>
             </tr>
           </table>

@@ -57,7 +57,7 @@ export const ProjectDirectory = () => {
 
   const fetchProperties = async (searchValue) => {
     await get(
-      `/dashboard/property/getAllProperty?search=${searchValue}&page=${page}&limit=10`
+      `/dashboard/property/getAllProperty?search=${searchValue}&page=${page}&limit=10&admin`
     )
       .then((res) => {
         console.log("res1", res?.data);
