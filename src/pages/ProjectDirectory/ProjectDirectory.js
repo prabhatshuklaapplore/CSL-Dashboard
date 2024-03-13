@@ -134,10 +134,11 @@ export const ProjectDirectory = () => {
   };
 
   const handleActive = async (id, active) => {
-    let response = await put(`dashboard/property/updateProperty?id=${id}`, {
+    let response = await put(`dashboard/property/updateProperty`, {
+      _id: id,
       active: active,
     });
-    setMessage(response.message);
+    setMessage(`${active}-${response.message}`);
     toastMessage(response.message, "success");
   };
 
@@ -268,13 +269,13 @@ export const ProjectDirectory = () => {
       type: "text",
       isDropdown: false,
     },
-    // {
-    //   name: "area",
-    //   label: "total area covered",
-    //   title: "Area (in sq.ft)",
-    //   type: "number",
-    //   isDropdown: false,
-    // },
+    {
+      name: "area",
+      label: "total area covered",
+      title: "Area (in sq.ft)",
+      type: "number",
+      isDropdown: false,
+    },
     {
       name: "projectGeoLocation",
       label: "GeoLocation",
@@ -291,8 +292,8 @@ export const ProjectDirectory = () => {
     },
     {
       name: "promotorName",
-      label: "Promotor Name",
-      title: "Promotor Name",
+      label: "Promoter name/Guaranter",
+      title: "Promoter name/Guaranter",
       type: "text",
       isDropdown: false,
     },

@@ -284,7 +284,7 @@ const Users = () => {
           imgObj[key] = [...imgObj[key], ...item.asset];
         });
 
-        imgObj[key] = getRandom(imgObj[key], 4);
+        imgObj[key] = getRandom(imgObj[key], 8);
       });
 
       const element = `
@@ -394,14 +394,6 @@ const Users = () => {
             </tr>
             <tr style="border: 1px solid black">
               <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
-                Sales Status
-              </td>
-              <td style="border: 1px solid black; width: 60%; padding: 2px;">${
-                row?.status
-              }</td>
-            </tr>
-            <tr style="border: 1px solid black">
-              <td style="border: 1px solid black; font-weight: bold; width: 40%; padding: 2px;">
                 Report by
               </td>
               <td style="border: 1px solid black; width: 60%; padding: 2px;">${
@@ -421,8 +413,6 @@ const Users = () => {
               </td>
             </tr>
           </table>
-
-          <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
@@ -471,8 +461,6 @@ const Users = () => {
               ${generateTableRow(trObj, tableHeaderTwo)}
             </tbody>
           </table>
-
-          <div class="html2pdf__page-break"></div>
 
           <div style="display: flex; justify-content: flex-start; padding-top: 10px;">
             <span>
@@ -545,25 +533,26 @@ const Users = () => {
           </div>
           <div>
             ${Object.keys(imgObj)
-              .map(
-                (key, i) =>
-                  `
-                    <div style="display: flex; margin-top:5px">
-                      <div style="border: 1px solid black; padding-left: 5px; width: 20%; display: flex; align-items: center;">
-                        ${key}
-                      </div>
-                      <div style="border: 1px solid black; width: 80%;">
-                        <div style="display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto; grid-gap: 10px; margin-left: 80px; padding: 10px 0px 10px 0px;">
-                          ${imgObj[key]
-                            .map(
-                              (img) =>
-                                `<img style="border: 1px solid black; height: 250px; width: 250px;" src="${img}" alt="${img}" crossorigin="*" >`
-                            )
-                            .join("")}
-                        </div>
+              .map((key, i) =>
+                imgObj[key].length
+                  ? `
+                  <div style="padding-top:40px">
+                  <span>${key}</span>
+                  <div style="display: flex; margin-top:5px">
+                    <div style="border: 1px solid black; width: 100%;">
+                      <div style="display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto; grid-gap: 10px; margin-left: 80px; padding: 10px 0px 10px 0px;">
+                        ${imgObj[key]
+                          .map(
+                            (img) =>
+                              `<img style="border: 1px solid black; height: 200px; width: 200px;" src="${img}" alt="${img}" crossorigin="*" >`
+                          )
+                          .join("")}
                       </div>
                     </div>
-                    <div class="html2pdf__page-break"></div>`
+                  </div>
+                  </div>
+                  <div class="html2pdf__page-break"></div>`
+                  : "<div></div>"
               )
               .join("")}
           </div>

@@ -95,7 +95,7 @@ export const Team = () => {
     let response = await put(`/dashboard/dashUser/updateAccount?id=${id}`, {
       active: active,
     });
-    setMessage(response.message);
+    setMessage(`${active}-${response.message}`);
     toastMessage(response.message, "success");
   };
 

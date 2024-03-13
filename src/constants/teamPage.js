@@ -71,12 +71,12 @@ export const teamstableColumns = [
   //   minWidth: 70,
   //   align: "center",
   // },
-  // {
-  //   id: "active",
-  //   label: "Status",
-  //   minWidth: 50,
-  //   align: "center",
-  // },
+  {
+    id: "active",
+    label: "Status",
+    minWidth: 50,
+    align: "center",
+  },
   {
     id: "action",
     label: "Action",
