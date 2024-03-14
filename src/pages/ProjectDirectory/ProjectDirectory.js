@@ -272,8 +272,8 @@ export const ProjectDirectory = () => {
     {
       name: "area",
       label: "total area covered",
-      title: "Area (in sq.ft)",
-      type: "number",
+      title: "Area (in sq.yd)",
+      type: "text",
       isDropdown: false,
     },
     {
