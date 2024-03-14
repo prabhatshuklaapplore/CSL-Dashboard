@@ -546,6 +546,7 @@ export const ProjectDirectory = () => {
           <form className={style.form_div}>
             {fields &&
               fields.map((field, idx) => {
+                if (field.name === "_id") return;
                 return (
                   <div style={{ marginTop: "1rem" }}>
                     {field.isDropdown ? (
