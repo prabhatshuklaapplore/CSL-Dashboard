@@ -387,7 +387,6 @@ export const ProjectDirectory = () => {
     const { name, value } = event.target;
     setPropertiesValue((prevValues) => ({
       ...prevValues,
-      area: 0,
       projectCost: 0,
       [name]: value,
     }));
