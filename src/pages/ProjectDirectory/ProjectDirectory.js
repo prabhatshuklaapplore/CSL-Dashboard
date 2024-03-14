@@ -53,6 +53,7 @@ export const ProjectDirectory = () => {
     groupSanctionAmount: "",
     groupPOS: "",
     propertyType: "",
+    maturityDate: "",
   });
 
   const fetchProperties = async (searchValue) => {
@@ -413,6 +414,7 @@ export const ProjectDirectory = () => {
           groupSanctionAmount: "",
           groupPOS: "",
           propertyType: "",
+          maturityDate: "",
         });
       } else {
         console.log("prope", propertiesValue);
@@ -611,6 +613,7 @@ export const ProjectDirectory = () => {
             groupSanctionAmount: "",
             groupPOS: "",
             propertyType: "",
+            maturityDate: "",
           });
         }}
         aria-labelledby="modal-title"
