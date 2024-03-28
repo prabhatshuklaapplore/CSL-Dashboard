@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import style from "./CustomTable.module.css";
 import React, { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CircularProgress, Grid, Pagination, Switch } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -25,6 +26,7 @@ const CustomTable = ({
   handleDisplay,
   handleDownload,
   handlePageChange,
+  handleStatus,
   pageNumber,
   pageCount,
   loading,
@@ -123,6 +125,23 @@ const CustomTable = ({
                                   }}
                                 >
                                   <EditIcon
+                                    style={{
+                                      fontSize: "24px",
+                                      borderRadius: "3px",
+                                      cursor: "pointer",
+                                      color: "green",
+                                    }}
+                                  />
+                                </div>
+                              )}
+                              {row?.action?.mark && (
+                                <div
+                                  onClick={() => {
+                                    // Handle edit action for this row
+                                    handleStatus(row);
+                                  }}
+                                >
+                                  <ContentCopyIcon
                                     style={{
                                       fontSize: "24px",
                                       borderRadius: "3px",

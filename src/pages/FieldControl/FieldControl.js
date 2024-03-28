@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Main/Layout";
-import { Box, Button, Modal, Switch, Typography } from "@mui/material";
+import { Box, Button, Modal, Stack, Switch, Typography } from "@mui/material";
 import { Autocomplete } from "@mui/material";
+import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import TextField from "@mui/material/TextField";
 import CustomTable from "../../components/Custom/Table/CustomTable";
 import { get, post, put } from "../../config/axios";
@@ -38,7 +39,10 @@ const FieldControl = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const options = ["WS Small", "MSL", "WSL Large"];
   const [propertyTypeName, setPropertyTypeName] = useState("");
-  const [propertiesOption, setpropertiesOption] = useState([
+  const [selectedPropertyData, setSelectedPropertyData] = useState();
+  const [isFormContentCopied, setIsFormContentCopied] = useState(false);
+
+  const initialProperties = [
     {
       fieldName: "",
       subHeadingName: "",
@@ -54,7 +58,9 @@ const FieldControl = () => {
         },
       ],
     },
-  ]);
+  ];
+
+  const [propertiesOption, setpropertiesOption] = useState(initialProperties);
 
   const fetchEvents = async (searchValue) => {
     await get(`/dashboard/property/getAllPropertyType?page=1&limit=10`)
@@ -63,7 +69,7 @@ const FieldControl = () => {
         setEvents(
           res?.data.map((item) => ({
             ...item,
-            action: { edit: true, delete: true },
+            action: { edit: true, delete: true, mark: true },
           }))
         );
         setPageCount(res?.totalPage);
@@ -109,9 +115,20 @@ const FieldControl = () => {
     setDeleteModalOpen(false);
   };
 
+  const handlePopulateFormData = () => {
+    if (isFormContentCopied) {
+      setpropertiesOption(selectedPropertyData);
+    }
+  };
+
   const handleStatus = (row) => {
     // Implement the status chnage for the selected row
-    console.log("Delete clicked for row 34:", row);
+    if (propertiesOption.length !== 0) setpropertiesOption(initialProperties);
+    setIsFormContentCopied(true);
+    // setpropertiesOption(row?.fieldOptions);
+    setSelectedPropertyData(row?.fieldOptions);
+    toastMessage(`Form data copied successfully.`, "success");
+    console.log("Delete clicked for row 34:", row?.fieldOptions);
   };
 
   // const handleActive = async (id, active, type) => {
@@ -139,8 +156,8 @@ const FieldControl = () => {
     );
     setLoading(true);
     setDeleteModalOpen(false);
-    setMessage("succesfully deleted");
-    toastMessage("Succesfully deleted", "success");
+    setMessage("successfully deleted");
+    toastMessage("Successfully deleted", "success");
     setLoading(false);
   };
   const handleSubmit = async (formData, isEditing) => {
@@ -223,6 +240,10 @@ const FieldControl = () => {
   };
   const handleDeleteVenueFeature = (row) => {
     console.log("delete", row);
+  };
+
+  const handleSelectedPropertyType = (row) => {
+    // setSelectedPropertyType(row);
   };
 
   const updatePropertyType = (event, index) => {
@@ -363,7 +384,7 @@ const FieldControl = () => {
             <div style={{ width: "60%" }}>
               <Searchbar
                 search={handleSearch}
-                placeholder={"Seach by property type"}
+                placeholder={"Search by property type"}
                 debounceTime={1000}
               />
             </div>
@@ -383,6 +404,7 @@ const FieldControl = () => {
             handleEdit={(row) => openModal("edit", row)}
             handleDelete={handleDelete}
             handleStatus={handleStatus}
+            handle
             handleActive={(row, active) => handleActive(row, active)}
             handlePageChange={(page) => handlePageChange(page)}
             pageNumber={page}
@@ -400,6 +422,7 @@ const FieldControl = () => {
       <Modal
         open={isModalOpen}
         onClose={() => {
+          setpropertiesOption(initialProperties);
           setIsModalOpen(false);
         }}
         aria-labelledby="modal-title"
@@ -419,16 +442,34 @@ const FieldControl = () => {
             ADD PROPERTY TYPE
           </h2>
           <div style={{ padding: "0 0rem" }}>
-            <Typography>{"Property Type/Name"}</Typography>
-            <TextField
-              name="fieldName"
-              value={propertyTypeName}
-              label={"ex. WS Large / MSME"}
-              onChange={(event) => setPropertyTypeName(event.target.value)}
-              sx={{ marginTop: "5px" }}
-              // error={schemeErr.name}
-              // helperText={schemeErr.name}
-            />
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Stack direction="column">
+                <Typography>{"Property Type/Name"}</Typography>
+                <TextField
+                  name="fieldName"
+                  value={propertyTypeName}
+                  label={"ex. WS Large / MSME"}
+                  onChange={(event) => setPropertyTypeName(event.target.value)}
+                  sx={{ marginTop: "5px" }}
+                  // error={schemeErr.name}
+                  // helperText={schemeErr.name}
+                />
+              </Stack>
+              <Button
+                onClick={handlePopulateFormData}
+                variant="outlined"
+                startIcon={<ContentPasteIcon fontSize="large" />}
+                disabled={!isFormContentCopied}
+                style={{ fontWeight: "bold" }}
+              >
+                Paste
+              </Button>
+            </Stack>
             {propertiesOption.map((form, index) => {
               return (
                 <div
@@ -634,6 +675,8 @@ const FieldControl = () => {
       <Modal
         open={editModal}
         onClose={() => {
+          setpropertiesOption(initialProperties);
+          setPropertyTypeName("");
           setEditModal(false);
         }}
         aria-labelledby="modal-title"

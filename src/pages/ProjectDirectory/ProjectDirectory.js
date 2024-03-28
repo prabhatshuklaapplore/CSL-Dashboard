@@ -219,7 +219,7 @@ export const ProjectDirectory = () => {
     try {
       let form = new FormData();
       form.append("file", formData?.allTeamData);
-      const res = await postFiles("/dashboard/dashUser/uploadFile", form);
+      const res = await postFiles("/dashboard/property/uploadFile", form);
       console.log(res);
       setMessage(res.message);
       toastMessage(res.message, "success");
